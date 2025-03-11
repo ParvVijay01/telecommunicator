@@ -2,10 +2,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lookme/components/bottomsheet/filter_sheet.dart';
 import 'package:lookme/components/drawer/drawer_menu.dart';
 import 'package:lookme/components/product/product_card.dart';
+import 'package:lookme/provider/user_provider.dart';
 import 'package:lookme/utils/constants/images.dart';
 import 'package:lookme/utils/constants/sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:lookme/utils/constants/svg.dart';
+import 'package:provider/provider.dart';
 
 class CategoryItems {
   String title;
@@ -207,9 +209,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final ScrollController _scrollController1 = ScrollController();
-  final ScrollController _scrollController2 = ScrollController();
-
   String selectedItems = "All";
 
   List<CategoryItems> categoryItems = [
@@ -231,34 +230,10 @@ class _HomeState extends State<Home> {
     IKImages.banner5,
   ];
 
-  // void loginSheetTime() async {
-
-  //   Timer(const Duration(seconds: 5), () =>
-  //     showModalBottomSheet<void>(
-  //       context: context,
-  //       isScrollControlled: true,
-  //       builder: (BuildContext context) {
-  //         return const LoginSheet2();
-  //       },
-  //     )
-  //   );
-
-  // }
-
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      // double minScrollExtent1 = _scrollController1.position.minScrollExtent;
-      // double maxScrollExtent1 = _scrollController1.position.maxScrollExtent;
-      // double minScrollExtent2 = _scrollController2.position.minScrollExtent;
-      // double maxScrollExtent2 = _scrollController2.position.maxScrollExtent;
-
-      // animateToMaxMin(maxScrollExtent1, minScrollExtent1, maxScrollExtent1, 25,
-      //     _scrollController1);
-      // animateToMaxMin(maxScrollExtent2, minScrollExtent2, maxScrollExtent2, 15,
-      //     _scrollController2);
-    });
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {});
   }
 
   animateToMaxMin(double max, double min, double direction, int seconds,
@@ -274,43 +249,51 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    final userProvider = Provider.of<UserProvider>(context);
     return Scaffold(
       appBar: PreferredSize(
-          preferredSize: const Size(IKSizes.container, IKSizes.headerHeight),
-          child: Container(
-            alignment: Alignment.center,
-            child: Container(
-              constraints: const BoxConstraints(maxWidth: IKSizes.container),
-              child: AppBar(
-                leading: Builder(
-                  builder: (context) {
-                    return IconButton(
-                      icon: const Icon(Icons.menu),
-                      iconSize: 28,
-                      onPressed: () {
-                        Scaffold.of(context).openDrawer();
-                      },
-                    );
-                  },
-                ),
-                title: Image.asset(
+        preferredSize: const Size.fromHeight(80),
+        child: AppBar(
+          leading: Builder(
+            builder: (context) {
+              return IconButton(
+                icon: const Icon(Icons.menu),
+                iconSize: 28,
+                onPressed: () {
+                  Scaffold.of(context).openDrawer();
+                },
+              );
+            },
+          ),
+          title: Padding(
+            padding: const EdgeInsets.all(5.0),
+            child: Column(
+              children: [
+                Image.asset(
                   IKImages.logo,
                   height: 50,
                 ),
-                centerTitle: true,
-                titleSpacing: 5,
-                actions: [
-                  IconButton(
-                    icon: const Icon(Icons.notifications_none_outlined),
-                    iconSize: 28,
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/notifications');
-                    },
-                  )
-                ],
-              ),
+                if (userProvider.selectedUser != null)
+                  Text(
+                    "${userProvider.selectedUser!.name} - ${userProvider.selectedUser!.phone}",
+                    style: const TextStyle(fontSize: 14),
+                  ),
+              ],
             ),
-          )),
+          ),
+          centerTitle: true,
+          titleSpacing: 5,
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.notifications_none_outlined),
+              iconSize: 28,
+              onPressed: () {
+                Navigator.pushNamed(context, '/notifications');
+              },
+            )
+          ],
+        ),
+      ),
       drawer: const DrawerMenu(),
       body: Container(
         alignment: Alignment.topCenter,
@@ -377,72 +360,7 @@ class _HomeState extends State<Home> {
                     ],
                   ),
                 ),
-                // Padding(
-                //   padding: EdgeInsets.symmetric(vertical: 15, horizontal: 25),
-                //   child: Column(
-                //     children: [
-                //       Text(
-                //         'Make Your Fashion Look Amazing',
-                //         style: TextStyle(
-                //           fontFamily: 'DMSerifDisplay',
-                //           fontSize: 35,
-                //           color: Theme.of(context).textTheme.titleMedium?.color,
-                //         ),
-                //         textAlign: TextAlign.center,
-                //       ),
-                //     ],
-                //   ),
-                // ),
-                //BannerSlider
-                // Container(
-                //   height: 129,
-                //   alignment: Alignment.center,
-                //   child: ListView.builder(
-                //       controller: _scrollController1,
-                //       scrollDirection: Axis.horizontal,
-                //       shrinkWrap: true,
-                //       itemCount: imageUrls.length,
-                //       itemBuilder: (context, index) {
-                //         return Container(
-                //           padding: EdgeInsets.all(2),
-                //           child: Image.asset(
-                //             imageUrls[index],
-                //             width: 175,
-                //             height: 129,
-                //             fit: BoxFit.cover,
-                //           ),
-                //         );
-                //       }),
-                // ),
-                // Container(
-                //   height: 129,
-                //   alignment: Alignment.center,
-                //   child: ListView.builder(
-                //       controller: _scrollController2,
-                //       scrollDirection: Axis.horizontal,
-                //       shrinkWrap: true,
-                //       itemCount: imageUrls.length,
-                //       itemBuilder: (context, index) {
-                //         return Container(
-                //           padding: EdgeInsets.all(2),
-                //           child: Image.asset(
-                //             imageUrls[index],
-                //             width: 175,
-                //             height: 129,
-                //             fit: BoxFit.cover,
-                //           ),
-                //         );
-                //       }),
-                // ),
                 const SizedBox(height: 20.0),
-                // Container(
-                //   padding: EdgeInsets.symmetric(horizontal: 15),
-                //   child: Text('New Arrival',
-                //       style: Theme.of(context)
-                //           .textTheme
-                //           .titleLarge
-                //           ?.merge(TextStyle(fontSize: 18))),
-                // ),
                 Container(
                     color: Theme.of(context).cardColor,
                     child: SingleChildScrollView(
@@ -520,57 +438,3 @@ class _HomeState extends State<Home> {
     );
   }
 }
-
-
-// class OfferCountdown extends StatefulWidget {
-//   const OfferCountdown({super.key});
-
-//   @override
-//   State<OfferCountdown> createState() => _OfferCountdownState();
-// }
-
-// class _OfferCountdownState extends State<OfferCountdown> {
-//   late final StreamDuration _streamDuration;
-
-//   @override
-//   void initState() {
-//     super.initState();
-//     _streamDuration = StreamDuration(
-//       config: const StreamDurationConfig(
-//         countDownConfig: CountDownConfig(
-//           duration: Duration(days: 1),
-//         ),
-//       ),
-//     );
-//   }
-
-//   @override
-//   void dispose() {
-//     super.dispose();
-//     _streamDuration.dispose();
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Column(
-//       mainAxisAlignment: MainAxisAlignment.center,
-//       children: [
-//         SlideCountdownSeparated(
-//           // This duration no effect if you customize stream duration
-//           streamDuration: _streamDuration,
-//           style: const TextStyle(
-//             color: IKColors.title,
-//             fontSize: 13,
-//             fontWeight: FontWeight.w500
-//           ),
-//           separatorStyle: const TextStyle(color: IKColors.primary,fontWeight: FontWeight.w500),
-//           padding: const EdgeInsets.only(left: 5,right: 5,bottom: 1,top: 1),
-//           decoration: const BoxDecoration(
-//             color: IKColors.secondary,
-//             borderRadius: BorderRadius.all(Radius.circular(4)),
-//           ),
-//         ),
-//       ],
-//     );
-//   }
-// }

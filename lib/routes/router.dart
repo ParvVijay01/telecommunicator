@@ -8,6 +8,7 @@ import 'package:lookme/screens/category/category.dart';
 import 'package:lookme/screens/chat/chat_call.dart';
 import 'package:lookme/screens/chat/chat_list.dart';
 import 'package:lookme/screens/chat/chat_screen.dart';
+import 'package:lookme/screens/home/search_user.dart';
 import 'package:lookme/screens/notifications/notifications.dart';
 import 'package:lookme/screens/order/my_orders.dart';
 import 'package:lookme/screens/order/track_order.dart';
@@ -96,5 +97,6 @@ class AppRoutes {
     '/tables': (context) => const Tables(),
     '/toggle': (context) => const Toggle(),
     '/chat_call': (context) => const ChatCall(),
+    '/search_user': (context) => const SearchUserScreen(),
   };
 }

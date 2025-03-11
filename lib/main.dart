@@ -1,6 +1,7 @@
 import 'package:lookme/data/data_provider.dart';
+import 'package:lookme/provider/telecaller_provider.dart';
 import 'package:lookme/routes/router.dart';
-import 'package:lookme/screens/auth/provider/user_provider.dart';
+import 'package:lookme/provider/user_provider.dart';
 import 'package:lookme/utils/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -12,7 +13,8 @@ void main() {
       providers: [
         ChangeNotifierProvider(create: (context) => DataProvider()),
         ChangeNotifierProvider(
-            create: (context) => UserProvider(DataProvider()))
+            create: (context) => UserProvider(DataProvider())),
+        ChangeNotifierProvider(create: (_) => TelecallerProvider()),
       ],
       child: App(),
     ),

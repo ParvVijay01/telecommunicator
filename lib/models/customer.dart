@@ -7,7 +7,7 @@ class User {
   final String? city;
   final ShippingAddress? shippingAddress;
   final String email;
-  final String? phone;
+  final String phone;
   final String? password;
   final DateTime createdAt;
   final DateTime updatedAt;
@@ -21,33 +21,37 @@ class User {
     this.city,
     this.shippingAddress,
     required this.email,
-    this.phone,
+    required this.phone,
     this.password,
     required this.createdAt,
     required this.updatedAt,
   });
 
-  // Convert JSON to Customer model
+  // Convert JSON to User model
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
-      id: json['_id'],
-      name: json['name'],
-      image: json['image'],
-      address: json['address'],
-      country: json['country'],
-      city: json['city'],
+      id: json['_id'] ?? '',
+      name: json['name'] ?? '',
+      image: json['image'] ?? '', // Default empty string if null
+      address: json['address'] ?? '',
+      country: json['country'] ?? '',
+      city: json['city'] ?? '',
       shippingAddress: json['shippingAddress'] != null
           ? ShippingAddress.fromJson(json['shippingAddress'])
           : null,
-      email: json['email'],
-      phone: json['phone'],
-      password: json['password'],
-      createdAt: DateTime.parse(json['createdAt']),
-      updatedAt: DateTime.parse(json['updatedAt']),
+      email: json['email'] ?? '',
+      phone: json['phone'] ?? '',
+      password: json['password'] ?? '',
+      createdAt: json['createdAt'] != null
+          ? DateTime.tryParse(json['createdAt']) ?? DateTime.now()
+          : DateTime.now(), // Default to now if null
+      updatedAt: json['updatedAt'] != null
+          ? DateTime.tryParse(json['updatedAt']) ?? DateTime.now()
+          : DateTime.now(), // Default to now if null
     );
   }
 
-  // Convert Customer model to JSON
+  // Convert User model to JSON
   Map<String, dynamic> toJson() {
     return {
       '_id': id,
@@ -92,15 +96,15 @@ class ShippingAddress {
 
   factory ShippingAddress.fromJson(Map<String, dynamic> json) {
     return ShippingAddress(
-      name: json['name'],
-      contact: json['contact'],
-      email: json['email'],
-      address: json['address'],
-      country: json['country'],
-      city: json['city'],
-      area: json['area'],
-      zipCode: json['zipCode'],
-      isDefault: json['isDefault'],
+      name: json['name'] ?? '',
+      contact: json['contact'] ?? '',
+      email: json['email'] ?? '',
+      address: json['address'] ?? '',
+      country: json['country'] ?? '',
+      city: json['city'] ?? '',
+      area: json['area'] ?? '', // Handle missing 'area'
+      zipCode: json['zipCode'] ?? '',
+      isDefault: json['isDefault'] ?? false, // Default to 'false' if missing
     );
   }
 

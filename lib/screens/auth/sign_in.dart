@@ -1,7 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_login/flutter_login.dart';
-import 'package:lookme/screens/auth/provider/user_provider.dart';
+import 'package:lookme/provider/user_provider.dart';
 import 'package:lookme/utils/constants/images.dart';
 import 'package:lookme/utils/constants/colors.dart';
 import 'package:lookme/utils/constants/sizes.dart';
@@ -35,10 +35,11 @@ class _SignInState extends State<SignIn> {
 
     try {
       final userProvider = Provider.of<UserProvider>(context, listen: false);
-      String? error = await userProvider.login(LoginData(name: email, password: password));
-      
+      String? error =
+          await userProvider.login(LoginData(name: email, password: password));
+
       if (error == null) {
-        Navigator.pushReplacementNamed(context, '/main_home');
+        Navigator.pushReplacementNamed(context, '/search_user');
       }
     } catch (e) {
       SnackBarHelper.showErrorSnackBar("Error: ${e.toString()}");
@@ -76,8 +77,10 @@ class _SignInState extends State<SignIn> {
                     ],
                   ),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 25),
-                    constraints: const BoxConstraints(maxWidth: IKSizes.container),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 30, vertical: 25),
+                    constraints:
+                        const BoxConstraints(maxWidth: IKSizes.container),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
@@ -90,9 +93,15 @@ class _SignInState extends State<SignIn> {
                         const SizedBox(height: 8),
                         Text(
                           "Welcome Back! You've Been Missed!",
-                          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                              color: Theme.of(context).textTheme.titleMedium?.color,
-                              fontSize: 15),
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyLarge
+                              ?.copyWith(
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .titleMedium
+                                      ?.color,
+                                  fontSize: 15),
                           textAlign: TextAlign.left,
                           maxLines: 3,
                         ),
@@ -126,12 +135,18 @@ class _SignInState extends State<SignIn> {
                             children: <TextSpan>[
                               TextSpan(
                                 text: 'Forgot Password?',
-                                style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                                  color: Theme.of(context).textTheme.titleMedium?.color,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w500,
-                                  decoration: TextDecoration.underline,
-                                ),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .labelMedium
+                                    ?.copyWith(
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .titleMedium
+                                          ?.color,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w500,
+                                      decoration: TextDecoration.underline,
+                                    ),
                                 recognizer: TapGestureRecognizer()
                                   ..onTap = () {
                                     Navigator.pushNamed(context, '/forget');
@@ -146,12 +161,16 @@ class _SignInState extends State<SignIn> {
                           child: ElevatedButton(
                             onPressed: _isLoading ? null : _login,
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Theme.of(context).textTheme.titleMedium?.color,
+                              backgroundColor: Theme.of(context)
+                                  .textTheme
+                                  .titleMedium
+                                  ?.color,
                               side: const BorderSide(color: IKColors.secondary),
                               foregroundColor: Theme.of(context).cardColor,
                             ),
                             child: _isLoading
-                                ? const CircularProgressIndicator(color: Colors.white)
+                                ? const CircularProgressIndicator(
+                                    color: Colors.white)
                                 : const Text('Sign in'),
                           ),
                         ),
