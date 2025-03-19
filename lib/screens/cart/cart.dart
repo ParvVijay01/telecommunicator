@@ -1,6 +1,7 @@
 import 'package:lookme/components/product/product_cart.dart';
 import 'package:lookme/screens/home/home.dart';
 import 'package:lookme/utils/constants/colors.dart';
+import 'package:lookme/utils/constants/images.dart';
 import 'package:lookme/utils/constants/sizes.dart';
 import 'package:flutter/material.dart';
 
@@ -14,53 +15,53 @@ class Cart extends StatefulWidget {
 
 class _CartState extends State<Cart> {
 
-  // final List<Map<String, String>> cartItems = [
-  //   {
-  //     'id': "0",
-  //     'title': 'Bluebell Hand Block Tiered Dress', 
-  //     'image': IKImages.product11,
-  //     'price' : '80',
-  //     'old-price' : '95',
-  //     'count' : '10',
-  //     'Review' : '(2k Review)',
-  //   },
-  //   {
-  //     'id': "1",
-  //     'title': 'Bluebell Hand Block Tiered Dress', 
-  //     'image': IKImages.product12,
-  //     'price' : '80',
-  //     'old-price' : '95',
-  //     'count' : '10',
-  //     'Review' : '(2k Review)',
-  //   },
-  //   {
-  //     'id': "2",
-  //     'title': 'Bluebell Hand Block Tiered Dress', 
-  //     'image': IKImages.product13,
-  //     'price' : '80',
-  //     'old-price' : '95',
-  //     'count' : '10',
-  //     'Review' : '(2k Review)',
-  //   },
-  //   {
-  //     'id': "3",
-  //     'title': 'Bluebell Hand Block Tiered Dress', 
-  //     'image': IKImages.product14,
-  //     'price' : '80',
-  //     'old-price' : '95',
-  //     'count' : '10',
-  //     'Review' : '(2k Review)',
-  //   },
-  //   {
-  //     'id': "4",
-  //     'title': 'Bluebell Hand Block Tiered Dress', 
-  //     'image': IKImages.product15,
-  //     'price' : '80',
-  //     'old-price' : '95',
-  //     'count' : '10',
-  //     'Review' : '(2k Review)',
-  //   },
-  // ];
+  final List<Map<String, String>> cartItems = [
+    {
+      'id': "0",
+      'title': 'Bluebell Hand Block Tiered Dress', 
+      'image': IKImages.product11,
+      'price' : '80',
+      'old-price' : '95',
+      'count' : '10',
+      'Review' : '(2k Review)',
+    },
+    {
+      'id': "1",
+      'title': 'Bluebell Hand Block Tiered Dress', 
+      'image': IKImages.product12,
+      'price' : '80',
+      'old-price' : '95',
+      'count' : '10',
+      'Review' : '(2k Review)',
+    },
+    {
+      'id': "2",
+      'title': 'Bluebell Hand Block Tiered Dress', 
+      'image': IKImages.product13,
+      'price' : '80',
+      'old-price' : '95',
+      'count' : '10',
+      'Review' : '(2k Review)',
+    },
+    {
+      'id': "3",
+      'title': 'Bluebell Hand Block Tiered Dress', 
+      'image': IKImages.product14,
+      'price' : '80',
+      'old-price' : '95',
+      'count' : '10',
+      'Review' : '(2k Review)',
+    },
+    {
+      'id': "4",
+      'title': 'Bluebell Hand Block Tiered Dress', 
+      'image': IKImages.product15,
+      'price' : '80',
+      'old-price' : '95',
+      'count' : '10',
+      'Review' : '(2k Review)',
+    },
+  ];
 
   void removeItem(id){
     setState(() {

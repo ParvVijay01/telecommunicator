@@ -18,7 +18,6 @@ import 'package:lookme/screens/payment/add_delivery_address.dart';
 import 'package:lookme/screens/payment/checkout.dart';
 import 'package:lookme/screens/payment/payment.dart';
 import 'package:lookme/screens/product/product_detail.dart';
-import 'package:lookme/screens/product/products.dart';
 import 'package:lookme/screens/profile/coupons.dart';
 import 'package:lookme/screens/profile/edit_profile.dart';
 import 'package:lookme/screens/profile/profile.dart';
@@ -40,7 +39,6 @@ import 'package:lookme/screens/shortcodes/swipeables.dart';
 import 'package:lookme/screens/shortcodes/tables.dart';
 import 'package:lookme/screens/shortcodes/tabs.dart';
 import 'package:lookme/screens/shortcodes/toggle.dart';
-import 'package:lookme/screens/wishlist/wishlist.dart';
 import 'package:flutter/material.dart';
 import 'package:lookme/screens/auth/sign_in.dart';
 import 'package:lookme/screens/auth/otp.dart';
@@ -63,7 +61,7 @@ class AppRoutes {
     '/payment': (context) => const Payment(),
     '/add_card': (context) => const AddCard(),
     '/checkout': (context) => const Checkout(),
-    '/products': (context) => const Products(),
+    // '/products': (context) => const Products(),
     '/product_detail': (context) => const ProductDetail(),
     '/edit_profile': (context) => const EditProfile(),
     '/search_screen': (context) => SearchScreen(),
@@ -73,12 +71,11 @@ class AppRoutes {
     '/track_order': (context) => const TrackOrder(),
     '/write_review': (context) => const WriteReview(),
     '/cart': (context) => const Cart(),
-    '/wishlist': (context) => Wishlist(),
     '/notifications': (context) => Notifications(),
     '/coupons': (context) => Coupons(),
     '/profile': (context) => const Profile(),
     '/Language': (context) => const Language(),
-    '/categories': (context) => Category(),
+    '/categories': (context) => CategoryScreen(),
     '/questions': (context) => Questions(),
     '/components': (context) => const Components(),
     '/accordion': (context) => AccordionScreen(),

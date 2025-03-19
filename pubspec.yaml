@@ -9,9 +9,11 @@ environment:
 dependencies:
   accordion: ^2.6.0
   auto_scroll_image: ^0.2.9-dev
+  cached_network_image: ^3.4.1
   card_swiper: ^3.0.1
   carousel_slider: ^5.0.0
   country_code_picker: ^3.2.0
+  dio: ^5.8.0+1
   fl_chart: ^0.70.2
   flutter:
     sdk: flutter

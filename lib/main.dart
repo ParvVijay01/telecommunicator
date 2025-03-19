@@ -12,8 +12,7 @@ void main() {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => DataProvider()),
-        ChangeNotifierProvider(
-            create: (context) => UserProvider(DataProvider())),
+        ChangeNotifierProvider(create: (context) => UserProvider()),
         ChangeNotifierProvider(create: (_) => TelecallerProvider()),
       ],
       child: App(),

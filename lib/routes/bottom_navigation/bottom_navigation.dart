@@ -7,7 +7,6 @@ import 'package:lookme/screens/cart/cart.dart';
 import 'package:lookme/screens/category/category.dart';
 import 'package:lookme/screens/home/home.dart';
 import 'package:lookme/screens/profile/profile.dart';
-import 'package:lookme/screens/wishlist/wishlist.dart';
 
 final List<Map<String, String>> iconList = [
     {
@@ -46,9 +45,8 @@ class _BottomNavigationState extends State<BottomNavigation> {
 
   final List<Widget> _pages = <Widget>[
     const Home(),
-    Wishlist(),
     const Cart(),
-    Category(),
+    CategoryScreen(),
     const Profile(),
   ];
 

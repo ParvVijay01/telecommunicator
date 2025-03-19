@@ -1,8 +1,8 @@
 import 'dart:developer';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:lookme/data/data_provider.dart';
 import 'package:lookme/models/api_response.dart';
 import 'package:lookme/models/customer.dart';
 import 'package:lookme/screens/auth/sign_in.dart';
@@ -14,80 +14,82 @@ import 'package:flutter_login/flutter_login.dart';
 
 class UserProvider extends ChangeNotifier {
   HttpService service = HttpService();
-  final DataProvider _dataProvider;
   final box = GetStorage();
 
   List<User> users = []; // Store all users
   List<User> searchResults = []; // Store search results
   User? selectedUser;
 
-  UserProvider(this._dataProvider);
-
   /// Fetch all users from API
   Future<void> fetchAllUsers() async {
     try {
       final response = await service.getItems(endpointUrl: "api/customer");
 
-      print("API Response Code: ${response.statusCode}");
-      print("API Response Body: ${response.body}");
+      print("API Response Code: \${response.statusCode}");
+      print("API Response Body: \${response.data}");
 
-      if (response.isOk) {
-        final List<dynamic> jsonList = response.body;
+      if (response?.statusCode == 200) {
+        final List<dynamic> jsonList = response?.data;
 
         users = jsonList
             .map((json) {
               try {
                 return User.fromJson(json);
               } catch (e) {
-                print("Error parsing user: $e");
+                print("Error parsing user: \$e");
                 return null;
               }
             })
             .whereType<User>()
             .toList(); // Remove null entries
 
-        print("Users loaded: ${users.length}");
+        print("Users loaded: \${users.length}");
       } else {
-        print("Failed to load users: ${response.statusText}");
+        print("Failed to load users: \${response.statusMessage}");
       }
     } catch (e) {
-      print("Error fetching users: $e");
+      print("Error fetching users: \$e");
     }
     notifyListeners();
   }
 
   /// Search user by phone number
   Future<void> searchUserByPhone(String phoneNumber) async {
-    if (phoneNumber.length != 10) {
-      searchResults = [];
-      SnackBarHelper.showErrorSnackBar("Please enter a valid phone number");
-      notifyListeners();
-      return;
+    try {
+      var response = await service.getItems(
+          endpointUrl: 'api/tele/get-customer/$phoneNumber');
+
+      if (response?.statusCode == 200 && response?.data != null) {
+        log("searched user ---> ${response?.data}");
+        if (response?.data is List) {
+          // If API returns multiple users
+          searchResults = (response?.data as List)
+              .map(
+                  (userJson) => User.fromJson(userJson as Map<String, dynamic>))
+              .toList();
+        } else if (response?.data is Map) {
+          // If API returns a single user object
+          searchResults = [
+            User.fromJson(response?.data as Map<String, dynamic>)
+          ];
+        } else {
+          searchResults = [];
+        }
+      } else {
+        searchResults = [];
+      }
+    } on DioException catch (e) {
+      // ✅ Explicitly handle 404 errors
+      if (e.response?.statusCode == 404) {
+        debugPrint("User not found: ${e.response?.data}");
+        searchResults = []; // Set empty list to show "USER NOT FOUND"
+      } else {
+        debugPrint("API error: $e");
+      }
+    } catch (e) {
+      debugPrint("Unexpected error: $e");
     }
 
-    if (users.isEmpty) {
-      await fetchAllUsers(); // Ensure users are loaded before searching
-    }
-
-    String normalizedPhone =
-        phoneNumber.startsWith("+91") ? phoneNumber.substring(3) : phoneNumber;
-
-    searchResults = users.where((user) {
-      String userPhone = user.phone ?? "";
-      String shippingContact = user.shippingAddress?.contact ?? "";
-
-      String normalizedUserPhone =
-          userPhone.startsWith("+91") ? userPhone.substring(3) : userPhone;
-
-      String normalizedShippingContact = shippingContact.startsWith("+91")
-          ? shippingContact.substring(3)
-          : shippingContact;
-
-      return normalizedUserPhone == normalizedPhone ||
-          normalizedShippingContact == normalizedPhone;
-    }).toList();
-
-    print("Found: ${searchResults.length} users");
     notifyListeners();
   }
 
@@ -111,9 +113,9 @@ class UserProvider extends ChangeNotifier {
       final response = await service.addItem(
           endpointUrl: "api/customer/login-tele", itemData: loginData);
 
-      if (response.isOk) {
+      if (response?.statusCode == 200) {
         final ApiResponse<User> apiResponse = ApiResponse<User>.fromJson(
-            response.body,
+            response?.data,
             (json) => User.fromJson(json as Map<String, dynamic>));
 
         if (apiResponse.success == true) {
@@ -124,18 +126,18 @@ class UserProvider extends ChangeNotifier {
           return null;
         } else {
           SnackBarHelper.showErrorSnackBar(
-              "Failed to login: ${apiResponse.message}");
-          return "Failed to login: ${apiResponse.message}";
+              "Failed to login: \${apiResponse.message}");
+          return "Failed to login: \${apiResponse.message}";
         }
       } else {
         SnackBarHelper.showErrorSnackBar(
-            "Error ${response.body?['message'] ?? response.statusText}");
-        return "Error ${response.body?['message'] ?? response.statusText}";
+            "Error \${response.data?['message'] ?? response.statusMessage}");
+        return "Error \${response.data?['message'] ?? response.statusMessage}";
       }
     } catch (err) {
       print(err);
-      SnackBarHelper.showErrorSnackBar('An error occurred: $err');
-      return "An error occurred $err";
+      SnackBarHelper.showErrorSnackBar('An error occurred: \$err');
+      return "An error occurred \$err";
     }
   }
 
@@ -146,14 +148,14 @@ class UserProvider extends ChangeNotifier {
     }
 
     await box.write(USER_INFO_BOX, loginUser.toJson());
-    print("User data saved successfully: ${box.read(USER_INFO_BOX)}");
+    print("User data saved successfully: \${box.read(USER_INFO_BOX)}");
 
     notifyListeners(); // Ensure UI updates
   }
 
   User? getLoginUser() {
     Map<String, dynamic>? userJson = box.read(USER_INFO_BOX);
-    print("Retrieved user data from storage: $userJson"); // Debugging log
+    print("Retrieved user data from storage: \$userJson"); // Debugging log
 
     if (userJson == null || userJson.isEmpty) {
       return null; // Return null if storage is empty
