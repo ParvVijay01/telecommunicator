@@ -1,5 +1,3 @@
-import 'package:lookme/components/product/product_cart.dart';
-import 'package:lookme/screens/home/home.dart';
 import 'package:lookme/utils/constants/colors.dart';
 import 'package:lookme/utils/constants/sizes.dart';
 import 'package:flutter/material.dart';
@@ -14,16 +12,13 @@ class MyOrders extends StatefulWidget {
 
 class _MyOrdersState extends State<MyOrders> {
 
-  List _orderData = productItems.where((i) => i['order-status'] == 'ongoing').toList();
   String _activeFilter = 'ongoing';
 
   void _orderFilter(val) {
     setState(() {
       _activeFilter = val;
       if(val == 'all'){
-        _orderData = productItems;
       }else{
-        _orderData = productItems.where((i) => i['order-status'] == val).toList();
       }
     });
   }
@@ -120,32 +115,7 @@ class _MyOrdersState extends State<MyOrders> {
                     ],
                   ),
                 ),
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: _orderData.map((item) {
-                        return Container(
-                          decoration: BoxDecoration(
-                            border: Border(bottom: BorderSide(width: 1,color: Theme.of(context).dividerColor))
-                          ),
-                          padding: const EdgeInsets.all(15),
-                          child: ProductCart(
-                            id: item['id'],
-                            title: item['title']!,
-                            price: item['price']!,
-                            oldPrice: item['old-price']!,
-                            image: item['image']!,
-                            review: item['Review']!,
-                            count: item['count']!,
-                            orderStatus : item['order-status']!,
-                            offer: item['offer']!,
-                            quantity: item['quantity']!,
-                          ),
-                        );
-                      }).toList(),
-                    ),
-                  )
-                )
+                
               ],
             ),
         ),

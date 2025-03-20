@@ -4,7 +4,6 @@ import 'package:lookme/utils/constants/svg.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lookme/screens/cart/cart.dart';
-import 'package:lookme/screens/category/category.dart';
 import 'package:lookme/screens/home/home.dart';
 import 'package:lookme/screens/profile/profile.dart';
 
@@ -46,7 +45,6 @@ class _BottomNavigationState extends State<BottomNavigation> {
   final List<Widget> _pages = <Widget>[
     const Home(),
     const Cart(),
-    CategoryScreen(),
     const Profile(),
   ];
 

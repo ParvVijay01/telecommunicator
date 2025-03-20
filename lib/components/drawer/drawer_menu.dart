@@ -30,9 +30,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
   @override
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context, listen: true);
-    final loggedInUser = userProvider.getLoginUser();
 
-    print("Logged in User: ${loggedInUser?.name}, ${loggedInUser?.email}");
 
     return Container(
       color: Theme.of(context).cardColor,
@@ -66,7 +64,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                loggedInUser?.name ?? "Guest User",
+                                "Guest User",
                                 style: Theme.of(context)
                                     .textTheme
                                     .headlineMedium
@@ -75,7 +73,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
                               ),
                               const SizedBox(height: 3),
                               Text(
-                                loggedInUser?.email ?? "No Email",
+                                "guest",
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyMedium

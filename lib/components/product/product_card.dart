@@ -1,8 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:lookme/provider/cart_provider.dart';
 import 'package:lookme/utils/constants/colors.dart';
 import 'package:lookme/utils/constants/svg.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 
 class ScreenArguments {
   final dynamic id;
@@ -51,6 +53,25 @@ class ProductCard extends StatefulWidget {
 class _ProductCardState extends State<ProductCard> {
   late dynamic _isWishlist;
 
+  void addToCart() {
+    // Assuming you're using Provider for cart management
+    Provider.of<CartProvider>(context, listen: false).addItem(
+      id: widget.id,
+      title: widget.title?['en'] ?? 'No Title',
+      price: widget.price,
+      image: widget.images?.isNotEmpty == true ? widget.images!.first : '',
+      originalPrice: widget.price,
+    );
+
+    // Show a snackbar to confirm the addition
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text("Added to cart!"),
+        duration: Duration(seconds: 2),
+      ),
+    );
+  }
+
   @override
   void initState() {
     super.initState();
@@ -60,10 +81,7 @@ class _ProductCardState extends State<ProductCard> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        Navigator.pushNamed(context, '/product_detail',
-            arguments: ScreenArguments(widget.id));
-      },
+      onTap: () {},
       child: Container(
         color: Theme.of(context).cardColor,
         margin: const EdgeInsets.only(left: 5, right: 5, bottom: 10),
@@ -100,7 +118,7 @@ class _ProductCardState extends State<ProductCard> {
                   bottom: 10,
                   child: GestureDetector(
                     onTap: () {
-                      Navigator.pushNamed(context, '/cart');
+                      addToCart();
                     },
                     child: Container(
                       padding: const EdgeInsets.all(10.0),

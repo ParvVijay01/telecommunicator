@@ -1,10 +1,7 @@
 import 'package:lookme/screens/Language/Language.dart';
-import 'package:lookme/screens/auth/comfirmcode.dart';
-import 'package:lookme/screens/auth/forget.dart';
 import 'package:lookme/screens/auth/onboarding.dart';
 import 'package:lookme/screens/auth/splash.dart';
 import 'package:lookme/screens/cart/cart.dart';
-import 'package:lookme/screens/category/category.dart';
 import 'package:lookme/screens/chat/chat_call.dart';
 import 'package:lookme/screens/chat/chat_list.dart';
 import 'package:lookme/screens/chat/chat_screen.dart';
@@ -13,7 +10,6 @@ import 'package:lookme/screens/notifications/notifications.dart';
 import 'package:lookme/screens/order/my_orders.dart';
 import 'package:lookme/screens/order/track_order.dart';
 import 'package:lookme/screens/order/write_review.dart';
-import 'package:lookme/screens/payment/add_card.dart';
 import 'package:lookme/screens/payment/add_delivery_address.dart';
 import 'package:lookme/screens/payment/checkout.dart';
 import 'package:lookme/screens/payment/payment.dart';
@@ -41,25 +37,16 @@ import 'package:lookme/screens/shortcodes/tabs.dart';
 import 'package:lookme/screens/shortcodes/toggle.dart';
 import 'package:flutter/material.dart';
 import 'package:lookme/screens/auth/sign_in.dart';
-import 'package:lookme/screens/auth/otp.dart';
-import 'package:lookme/screens/auth/sign_up.dart';
 import 'package:lookme/routes/bottom_navigation/bottom_navigation.dart';
-import 'package:lookme/screens/payment/delivery_address.dart';
 
 class AppRoutes {
   static final Map<String, WidgetBuilder> routes = {
     '/splash': (context) => const Splash(),
     '/onboarding': (context) => Onboarding(),
     '/signin': (context) => const SignIn(),
-    '/signup': (context) => const SignUp(),
-    '/otp': (context) => const Otp(),
-    '/forget': (context) => const Forget(),
-    '/comfirmcode': (context) => const Comfirmcode(),
     '/main_home': (context) => const BottomNavigation(),
-    '/delivery_address': (context) => const DeliveryAddress(),
     '/add_delivery_address': (context) => const AddDeliveryAddress(),
     '/payment': (context) => const Payment(),
-    '/add_card': (context) => const AddCard(),
     '/checkout': (context) => const Checkout(),
     // '/products': (context) => const Products(),
     '/product_detail': (context) => const ProductDetail(),
@@ -75,7 +62,6 @@ class AppRoutes {
     '/coupons': (context) => Coupons(),
     '/profile': (context) => const Profile(),
     '/Language': (context) => const Language(),
-    '/categories': (context) => CategoryScreen(),
     '/questions': (context) => Questions(),
     '/components': (context) => const Components(),
     '/accordion': (context) => AccordionScreen(),
