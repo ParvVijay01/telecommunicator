@@ -124,9 +124,9 @@ class _ProductCardState extends State<ProductCard> {
                       padding: const EdgeInsets.all(10.0),
                       margin: const EdgeInsets.only(top: 8.0, bottom: 4.0),
                       decoration: BoxDecoration(
-                        color: IKColors.card,
-                        borderRadius: BorderRadius.circular(0),
-                      ),
+                          color: IKColors.card,
+                          borderRadius: BorderRadius.circular(25),
+                          border: Border.all(color: Colors.black, width: 2)),
                       child: Text('Add To Cart',
                           textAlign: TextAlign.center,
                           style: Theme.of(context)
@@ -204,7 +204,7 @@ class _ProductCardState extends State<ProductCard> {
                   Row(
                     children: [
                       Text(
-                        '\$${widget.price.toStringAsFixed(2)}',
+                        '\₹${widget.price.toStringAsFixed(2)}',
                         style: Theme.of(context)
                             .textTheme
                             .titleLarge

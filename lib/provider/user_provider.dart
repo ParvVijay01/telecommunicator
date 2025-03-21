@@ -3,12 +3,10 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:lookme/models/api_response.dart';
 import 'package:lookme/models/customer.dart';
 import 'package:lookme/screens/auth/sign_in.dart';
 import 'package:lookme/service/http_service.dart';
 import 'package:lookme/utility/constants.dart';
-import 'package:lookme/utility/snackbar_helper.dart';
 import 'package:get/get.dart';
 import 'package:flutter_login/flutter_login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -21,9 +19,11 @@ class UserProvider extends ChangeNotifier {
   List<User> _searchResults = []; // Store search results
   User? _selectedUser;
   User? _loggedInUser;
+  User? _userId;
 
   UserProvider() {
-    _loadUserFromStorage(); // Load user data on init
+    loadLoggedInUser(); // Load user on app start
+    getUserId();
   }
 
   /// Getters
@@ -32,6 +32,7 @@ class UserProvider extends ChangeNotifier {
   User? get selectedUser => _selectedUser;
   User? get loggedInUser => _loggedInUser;
   bool get isAuthenticated => _loggedInUser != null;
+  User? get userId => _userId;
 
   /// Fetch all users from API
   Future<void> fetchAllUsers() async {
@@ -42,7 +43,6 @@ class UserProvider extends ChangeNotifier {
         _users = (response?.data as List)
             .map((json) => User.fromJson(json))
             .toList();
-
         log("✅ Users loaded: ${_users.length}");
       } else {
         log("⚠️ Failed to load users: ${response?.statusMessage}");
@@ -62,14 +62,8 @@ class UserProvider extends ChangeNotifier {
       if (response?.statusCode == 200 && response?.data != null) {
         log("🔍 Search response: ${response?.data}");
 
-        if (response?.data is List) {
-          _searchResults = (response?.data as List)
-              .map((json) => User.fromJson(json))
-              .toList();
-        } else if (response?.data is Map) {
-          _searchResults = [User.fromJson(response?.data)];
-        } else {
-          _searchResults = [];
+        if (response?.data is Map && response?.data.containsKey('data')) {
+          _searchResults = [User.fromJson(response?.data['data'])];
         }
       } else {
         _searchResults = [];
@@ -101,7 +95,7 @@ class UserProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Login user
+  /// Login user & store in local storage
   Future<String?> login(LoginData data) async {
     try {
       Map<String, dynamic> loginData = {
@@ -121,25 +115,18 @@ class UserProvider extends ChangeNotifier {
         if (responseData != null && responseData['success'] == true) {
           final String token = responseData['token'] ?? "";
 
-          // Ensure all fields are properly mapped
-          User user = User.fromJson({
-            "_id": responseData['_id'] ?? "",
-            "name": responseData['name'] ?? "No Name",
-            "email": responseData['email'] ?? "",
-            "phone": responseData['phone'] ?? "No Phone",
-            "image": responseData['image'] ?? "",
-            "address": responseData['address'] ?? "",
-            "country": responseData['country'] ?? "",
-            "city": responseData['city'] ?? "",
-            "shippingAddress": responseData['shippingAddress'] ?? null,
-            "createdAt": responseData['createdAt'] ?? "",
-            "updatedAt": responseData['updatedAt'] ?? "",
-          });
+          // Create a User object from response
+          User user = User.fromJson(responseData);
 
-          await _saveLoginInfo(user, token);
+          _loggedInUser = user;
+          _userId = user;
           log("✅ Login successful, user data saved: ${user.toJson()}");
 
-          SnackBarHelper.showSuccessSnackBar("Login successful!");
+          // Save user in both SharedPreferences & GetStorage
+          await saveUser(user, token);
+          _box.write(USER_INFO_BOX, jsonEncode(user.toJson()));
+          _box.write("auth_token", token);
+
           return null;
         } else {
           return "Login failed: ${responseData?['message'] ?? 'Unknown error'}";
@@ -153,33 +140,49 @@ class UserProvider extends ChangeNotifier {
     }
   }
 
-  /// Load user from storage
-  void _loadUserFromStorage() {
-    Map<String, dynamic>? userJson = _box.read(USER_INFO_BOX);
-    log("📦 Loaded user from storage: $userJson");
+  Future<void> saveUser(User user, String token) async {
+    log("Before saving: ${user.toJson()}"); // Ensure correct data before saving
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('user', jsonEncode(user.toJson()));
+    await prefs.setString('token', token);
+    log("✅ User saved: ${user.toJson()}");
+  }
 
-    if (userJson != null && userJson["_id"] != null) {
-      _loggedInUser = User.fromJson(userJson);
-      log("✅ User restored: ${_loggedInUser?.toJson()}");
+  Future<User?> getUserId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? userJson = prefs.getString('user');
+
+    if (userJson != null && userJson.isNotEmpty) {
+      Map<String, dynamic> userMap = jsonDecode(userJson);
+      User user = User.fromJson(userMap);
+
+      _userId = user;
+      log("✅ Retrieved User ID: ${_userId?.id}");
+
+      return user;
     } else {
-      log("⚠️ No valid user found in storage");
+      log("⚠️ No user found in SharedPreferences");
+      return null;
     }
   }
 
-  /// Save login info
-  Future<void> _saveLoginInfo(User user, String token) async {
-  final prefs = await SharedPreferences.getInstance();
+  /// Load user from local storage
+  Future<void> loadLoggedInUser() async {
+    _loggedInUser = await getUserId();
+    if (_loggedInUser != null) {
+      _userId = _loggedInUser; // Ensure user ID is set
+      log("🔄 User session restored: ${_loggedInUser?.toJson()}");
+    } else {
+      log("⚠️ No logged-in user found in storage.");
+    }
+    notifyListeners();
+  }
 
-  log("📦 Saving user data: ${user.toJson()}");
-  log("🔑 Saving token: $token");
-
-  await prefs.setString('auth_token', token);
-  await prefs.setString('user_data', jsonEncode(user.toJson()));
-
-  log("✅ User data successfully saved.");
-}
-  /// Logout user
+  /// Logout user & clear storage
   Future<void> logOutUser() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.clear(); // Clears all stored user data
+
     await _box.remove(USER_INFO_BOX);
     await _box.remove("auth_token");
 

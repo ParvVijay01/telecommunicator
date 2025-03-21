@@ -46,10 +46,35 @@ class _CartState extends State<Cart> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    "Price: \$${item['originalPrice']}",
+                                    "Price: \₹${item['originalPrice']}",
                                     style: const TextStyle(
                                       color: Colors.grey,
                                     ),
+                                  ),
+                                  const SizedBox(height: 5),
+                                  Row(
+                                    children: [
+                                      IconButton(
+                                        icon: const Icon(Icons.remove),
+                                        onPressed: () {
+                                          Provider.of<CartProvider>(context,
+                                                  listen: false)
+                                              .decreaseQuantity(item['id']);
+                                        },
+                                      ),
+                                      Text(
+                                        "${item['quantity']}",
+                                        style: const TextStyle(fontSize: 18),
+                                      ),
+                                      IconButton(
+                                        icon: const Icon(Icons.add),
+                                        onPressed: () {
+                                          Provider.of<CartProvider>(context,
+                                                  listen: false)
+                                              .increaseQuantity(item['id']);
+                                        },
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),
@@ -79,12 +104,12 @@ class _CartState extends State<Cart> {
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           summaryRow("Subtotal",
-                              "\$${cartProvider.subtotal.toStringAsFixed(2)}"),
+                              "₹${cartProvider.subtotal.toStringAsFixed(2)}"),
                           summaryRow("Shipping Cost",
-                              "\$${cartProvider.shippingCost.toStringAsFixed(2)}"),
+                              "₹${cartProvider.shippingCost.toStringAsFixed(2)}"),
                           const Divider(thickness: 1),
                           summaryRow("Total",
-                              "\$${cartProvider.total.toStringAsFixed(2)}",
+                              "₹${cartProvider.total.toStringAsFixed(2)}",
                               isBold: true),
                           const SizedBox(height: 10),
                           ElevatedButton(

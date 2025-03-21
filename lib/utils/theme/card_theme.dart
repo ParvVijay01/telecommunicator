@@ -13,5 +13,4 @@ class IKCardTheme {
   static const darkCardTheme = CardTheme(
     color: IKColors.darkCard,
   );
-
 }

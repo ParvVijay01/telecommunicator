@@ -1,6 +1,6 @@
 class User {
-  final String id;
-  final String name;
+  String id;
+  String name;
   final String? image;
   final String? address;
   final String? country;
@@ -29,25 +29,24 @@ class User {
 
   // Convert JSON to User model
   factory User.fromJson(Map<String, dynamic> json) {
-    final data = json['data'] ?? {}; // Extract `data` object if present
     return User(
-      id: data['_id'] ?? '',
-      name: data['name'] ?? 'No Name',
-      image: data['image'] ?? '',
-      address: data['address'] ?? '',
-      country: data['country'] ?? '',
-      city: data['city'] ?? '',
-      shippingAddress: data['shippingAddress'] != null
-          ? ShippingAddress.fromJson(data['shippingAddress'])
+      id: json['_id'] ?? '',
+      name: json['name'] ?? 'No Name',
+      image: json['image'] ?? '',
+      address: json['address'] ?? '',
+      country: json['country'] ?? '',
+      city: json['city'] ?? '',
+      shippingAddress: json['shippingAddress'] != null
+          ? ShippingAddress.fromJson(json['shippingAddress'])
           : null,
-      email: data['email'] ?? '',
-      phone: data['phone'] ?? 'No Phone',
-      password: data['password'] ?? '',
-      createdAt: data['createdAt'] != null
-          ? DateTime.tryParse(data['createdAt']) ?? DateTime.now()
+      email: json['email'] ?? '',
+      phone: json['phone'] ?? 'No Phone',
+      password: json['password'] ?? '',
+      createdAt: json['createdAt'] != null
+          ? DateTime.tryParse(json['createdAt']) ?? DateTime.now()
           : DateTime.now(),
-      updatedAt: data['updatedAt'] != null
-          ? DateTime.tryParse(data['updatedAt']) ?? DateTime.now()
+      updatedAt: json['updatedAt'] != null
+          ? DateTime.tryParse(json['updatedAt']) ?? DateTime.now()
           : DateTime.now(),
     );
   }

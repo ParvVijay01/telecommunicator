@@ -31,7 +31,6 @@ class _DrawerMenuState extends State<DrawerMenu> {
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context, listen: true);
 
-
     return Container(
       color: Theme.of(context).cardColor,
       child: Drawer(
@@ -148,7 +147,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Lookme eCommerce Store",
+                    "lookme eCommerce Store",
                     style: Theme.of(context).textTheme.titleMedium?.merge(
                         const TextStyle(fontSize: 13, color: IKColors.primary)),
                   ),

@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:lookme/components/textfieldform/add_user_textfield.dart';
 import 'package:lookme/service/http_service.dart';
@@ -29,7 +28,7 @@ class _AddUserFormState extends State<AddUserForm> {
   void initState() {
     super.initState();
     _phoneController.text = widget.phoneNumber;
-    }
+  }
 
   Future<void> _submitForm() async {
     if (_formKey.currentState!.validate()) {
@@ -48,11 +47,10 @@ class _AddUserFormState extends State<AddUserForm> {
         );
 
         if (response?.statusCode == 201) {
-          await Future.delayed(Duration(seconds: 1));
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('User added successfully!')),
           );
-          Navigator.pop(context, _phoneController.text);
+          Navigator.pop(context, true); // 🔹 Return 'true' to indicate success
         } else {
           log("error ---> ${response?.statusCode}");
           ScaffoldMessenger.of(context).showSnackBar(

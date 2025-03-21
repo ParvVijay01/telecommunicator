@@ -178,7 +178,7 @@ class _ProductDetailState extends State<ProductDetail> {
                       ),
                       child: Stack(
                         children: [
-                            if (imagePath != null)
+                          if (imagePath != null)
                             Image.asset(
                               imagePath!,
                               fit: BoxFit.cover,

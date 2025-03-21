@@ -54,53 +54,45 @@ class PieChart2State extends State {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Row(
-                children: [
-                  Container(
-                    height: 10,
-                    width: 10,
-                    color: const Color(0xFF972dee),
-                  ),
-                  const SizedBox(width: 8),
-                  Text('First',style: Theme.of(context).textTheme.titleMedium),
-                ]
-              ),
+              Row(children: [
+                Container(
+                  height: 10,
+                  width: 10,
+                  color: const Color(0xFF972dee),
+                ),
+                const SizedBox(width: 8),
+                Text('First', style: Theme.of(context).textTheme.titleMedium),
+              ]),
               const SizedBox(height: 4),
-              Row(
-                children: [
-                  Container(
-                    height: 10,
-                    width: 10,
-                    color: const Color(0xFF00d584),
-                  ),
-                  const SizedBox(width: 8),
-                  Text('Second',style: Theme.of(context).textTheme.titleMedium),
-                ]
-              ),
+              Row(children: [
+                Container(
+                  height: 10,
+                  width: 10,
+                  color: const Color(0xFF00d584),
+                ),
+                const SizedBox(width: 8),
+                Text('Second', style: Theme.of(context).textTheme.titleMedium),
+              ]),
               const SizedBox(height: 4),
-              Row(
-                children: [
-                  Container(
-                    height: 10,
-                    width: 10,
-                    color: IKColors.primary,
-                  ),
-                  const SizedBox(width: 8),
-                  Text('Third',style: Theme.of(context).textTheme.titleMedium),
-                ]
-              ),
+              Row(children: [
+                Container(
+                  height: 10,
+                  width: 10,
+                  color: IKColors.primary,
+                ),
+                const SizedBox(width: 8),
+                Text('Third', style: Theme.of(context).textTheme.titleMedium),
+              ]),
               const SizedBox(height: 4),
-              Row(
-                children: [
-                  Container(
-                    height: 10,
-                    width: 10,
-                    color: const Color(0xFFffa644),
-                  ),
-                  const SizedBox(width: 8),
-                  Text('Fourth',style: Theme.of(context).textTheme.titleMedium),
-                ]
-              ),
+              Row(children: [
+                Container(
+                  height: 10,
+                  width: 10,
+                  color: const Color(0xFFffa644),
+                ),
+                const SizedBox(width: 8),
+                Text('Fourth', style: Theme.of(context).textTheme.titleMedium),
+              ]),
             ],
           ),
           const SizedBox(

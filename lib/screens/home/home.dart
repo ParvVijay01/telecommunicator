@@ -1,6 +1,4 @@
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:lookme/components/bottomsheet/filter_sheet.dart';
-import 'package:lookme/components/drawer/drawer_menu.dart';
 import 'package:lookme/components/product/product_card.dart';
 import 'package:lookme/data/data_provider.dart';
 
@@ -37,13 +35,13 @@ class _HomeState extends State<Home> {
 
   void _onScroll() {
     final dataProvider = Provider.of<DataProvider>(context, listen: false);
+
     if (_scrollController.position.pixels >=
             _scrollController.position.maxScrollExtent - 50 &&
         dataProvider.hasMore &&
         !dataProvider.isLoading) {
-      Future.delayed(const Duration(milliseconds: 300), () {
-        dataProvider.fetchProducts(loadMore: true, category: selectedCategory);
-      });
+      debugPrint("Fetching more products...");
+      dataProvider.fetchProducts(loadMore: true, category: selectedCategory);
     }
   }
 
@@ -57,24 +55,17 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context);
     final dataProvider = Provider.of<DataProvider>(context);
-    final categories = dataProvider.categories;
     final products = dataProvider.products;
 
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(80),
         child: AppBar(
-          leading: Builder(
-            builder: (context) {
-              return IconButton(
-                icon: const Icon(Icons.menu),
-                iconSize: 28,
-                onPressed: () {
-                  Scaffold.of(context).openDrawer();
-                },
-              );
-            },
-          ),
+          leading: IconButton(
+              onPressed: () {
+                Navigator.pushNamed(context, "/search_user");
+              },
+              icon: Icon(Icons.person)),
           title: Padding(
             padding: const EdgeInsets.all(5.0),
             child: Column(
@@ -119,7 +110,6 @@ class _HomeState extends State<Home> {
           ],
         ),
       ),
-      drawer: const DrawerMenu(),
       body: Container(
         alignment: Alignment.topCenter,
         child: Container(
@@ -141,22 +131,6 @@ class _HomeState extends State<Home> {
                       color: Color(0xFF878787),
                       size: 24,
                     ),
-                    suffixIcon: IconButton(
-                      onPressed: () {
-                        showModalBottomSheet<void>(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return const FilterSheet();
-                          },
-                        );
-                      },
-                      icon: SvgPicture.string(
-                        IKSvg.filter,
-                        height: 20,
-                        width: 20,
-                        color: Theme.of(context).textTheme.titleMedium?.color,
-                      ),
-                    ),
                     border: const OutlineInputBorder(),
                     fillColor: Theme.of(context).canvasColor,
                   ),
@@ -164,38 +138,6 @@ class _HomeState extends State<Home> {
               ),
               const SizedBox(height: 20.0),
 
-              // ✅ Category List with Clickable Chips
-              SingleChildScrollView(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        setState(() => selectedCategory = "All");
-                        dataProvider.fetchProducts(category: "All");
-                      },
-                      child: CategoryChip(
-                        title: "All",
-                        isSelected: selectedCategory == "All",
-                      ),
-                    ),
-                    ...categories.map((category) {
-                      return GestureDetector(
-                        onTap: () {
-                          setState(() => selectedCategory = category.nameEn);
-                          dataProvider.fetchProducts(category: category.nameEn);
-                        },
-                        child: CategoryChip(
-                          title: category.nameEn,
-                          isSelected: selectedCategory == category.nameEn,
-                        ),
-                      );
-                    }),
-                  ],
-                ),
-              ),
               const SizedBox(height: 12),
 
               // ✅ Product List with Pagination
@@ -231,36 +173,6 @@ class _HomeState extends State<Home> {
             ],
           ),
         ),
-      ),
-    );
-  }
-}
-
-class CategoryChip extends StatelessWidget {
-  final String title;
-  final bool isSelected;
-
-  const CategoryChip({required this.title, required this.isSelected, Key? key})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      margin: const EdgeInsets.only(right: 10),
-      decoration: BoxDecoration(
-        color: isSelected
-            ? Theme.of(context).textTheme.titleMedium?.color
-            : Theme.of(context).canvasColor,
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Text(
-        title,
-        style: Theme.of(context).textTheme.titleMedium?.merge(TextStyle(
-            fontWeight: FontWeight.w500,
-            color: isSelected
-                ? Theme.of(context).cardColor
-                : Theme.of(context).textTheme.titleMedium?.color)),
       ),
     );
   }

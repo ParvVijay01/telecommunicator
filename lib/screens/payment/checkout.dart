@@ -1,8 +1,9 @@
+import 'dart:developer';
 import 'package:flutter/material.dart';
-import 'package:lookme/models/customer.dart';
-import 'package:provider/provider.dart';
+import 'package:lookme/provider/cart_provider.dart';
 import 'package:lookme/service/http_service.dart';
-import 'package:lookme/provider/user_provider.dart'; // Import UserProvider
+import 'package:lookme/provider/user_provider.dart';
+import 'package:provider/provider.dart';
 
 class Checkout extends StatefulWidget {
   const Checkout({super.key});
@@ -12,6 +13,8 @@ class Checkout extends StatefulWidget {
 }
 
 class _CheckoutState extends State<Checkout> {
+  final _formKey = GlobalKey<FormState>();
+
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController contactController = TextEditingController();
@@ -19,34 +22,38 @@ class _CheckoutState extends State<Checkout> {
   final TextEditingController cityController = TextEditingController();
   final TextEditingController countryController = TextEditingController();
   final TextEditingController zipCodeController = TextEditingController();
-  HttpService service = HttpService();
 
-  String paymentMethod = 'Cash on Delivery'; // Default payment method
-  List cartItems = []; // Cart Items
+  HttpService service = HttpService();
+  UserProvider dataprovider = UserProvider();
+
+  String paymentMethod = 'Cash on Delivery';
+  List cartItems = [];
   double subTotal = 0.0;
   double shippingCost = 0.0;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    // Retrieve arguments passed from the cart screen
     final args =
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     setState(() {
-      cartItems = args['cart']; // Fetch cart items
-      subTotal = args['subTotal']; // Fetch subtotal
-      shippingCost = args['shippingCost']; // Fetch shipping cost
-      paymentMethod =
-          args['paymentMethod'] ?? 'Cash on Delivery'; // Default fallback
+      cartItems = args['cart'];
+      subTotal = args['subTotal'];
+      shippingCost = args['shippingCost'];
+      paymentMethod = args['paymentMethod'] ?? 'Cash on Delivery';
     });
   }
 
   Future<void> submitOrder() async {
-    final userProvider = Provider.of<UserProvider>(context, listen: false);
-    User? user = Provider.of<UserProvider>(context, listen: false).loggedInUser;
+    if (!_formKey.currentState!.validate()) {
+      return;
+    }
 
-    if (user == null) {
-      print("DEBUG: No logged-in user found!"); // Debug statement
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    String? userId = userProvider.userId?.id;
+    String? selectedUser = userProvider.selectedUser?.id;
+
+    if (userId == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text("No logged-in user found! Please log in first."),
@@ -56,43 +63,39 @@ class _CheckoutState extends State<Checkout> {
       return;
     }
 
-    print("DEBUG: Logged-in user found - ID: ${user.id}, Name: ${user.name}");
+    log("DEBUG: Logged-in user ID: $userId");
+    log("DEBUG: Selected user ID: $selectedUser");
+
+    double commission = 10.0;
 
     final orderData = {
-      'userId': user.id,
-      'cart': cartItems,
-      'subTotal': subTotal,
-      'shippingCost': shippingCost,
-      'paymentMethod': paymentMethod,
-      'userInfo': {
-        'name': nameController.text.isNotEmpty
-            ? nameController.text
-            : ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text("Please enter your name"))),
-        'email': emailController.text.isNotEmpty
-            ? emailController.text
-            : ScaffoldMessenger.of(context)
-                .showSnackBar(SnackBar(content: Text("Please enter Email"))),
-        'contact': contactController.text.isNotEmpty
-            ? contactController.text
-            : ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text("Please enter phone number"))),
-        'address': addressController.text,
-        'city': cityController.text,
-        'country': countryController.text,
-        'zipCode': zipCodeController.text,
+      'order': {
+        'user': selectedUser,
+        'cart': cartItems,
+        'subTotal': subTotal,
+        'shippingCost': shippingCost,
+        'paymentMethod': paymentMethod,
+        'total': subTotal + shippingCost,
+        'userInfo': {
+          'name': nameController.text,
+          'email': emailController.text,
+          'contact': contactController.text,
+          'address': addressController.text,
+          'city': cityController.text,
+          'country': countryController.text,
+          'zipCode': zipCodeController.text,
+        },
       },
+      'commission': commission,
     };
-
-    print("DEBUG: Order Data - $orderData");
 
     try {
       final response = await service.addItem(
-        endpointUrl: '/telecaller/addorder/${user.id}',
+        endpointUrl: 'api/tele/telecaller/addorder/$userId',
         itemData: orderData,
       );
 
-      print("DEBUG: Response - $response");
+      log("DEBUG: Response - $response");
 
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -100,8 +103,12 @@ class _CheckoutState extends State<Checkout> {
           backgroundColor: Colors.green,
         ),
       );
+
+      // Navigate to Search User Screen after successful order submission
+      Provider.of<CartProvider>(context, listen: false).clearCart();
+      Navigator.pushReplacementNamed(context, '/search_user');
     } catch (e) {
-      print("DEBUG: Error - $e");
+      debugPrint("DEBUG: Error - $e");
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text("Failed to place order!"),
@@ -113,50 +120,104 @@ class _CheckoutState extends State<Checkout> {
 
   @override
   Widget build(BuildContext context) {
+    final double screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
-      appBar: AppBar(title: Text('Checkout')),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            TextField(
-              controller: nameController,
-              decoration: InputDecoration(labelText: 'Full Name'),
+      appBar: AppBar(title: const Text('Checkout')),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildResponsiveTextField(
+                  controller: nameController,
+                  label: 'Full Name',
+                  validator: (value) => value == null || value.isEmpty
+                      ? 'Please enter your name'
+                      : null,
+                  screenWidth: screenWidth,
+                ),
+                _buildResponsiveTextField(
+                  controller: emailController,
+                  label: 'Email',
+                  keyboardType: TextInputType.emailAddress,
+                  validator: (value) => value == null || value.isEmpty
+                      ? 'Please enter your email'
+                      : null,
+                  screenWidth: screenWidth,
+                ),
+                _buildResponsiveTextField(
+                  controller: contactController,
+                  label: 'Contact Number',
+                  keyboardType: TextInputType.phone,
+                  validator: (value) => value == null || value.isEmpty
+                      ? 'Please enter your phone number'
+                      : null,
+                  screenWidth: screenWidth,
+                ),
+                _buildResponsiveTextField(
+                  controller: addressController,
+                  label: 'Address',
+                  screenWidth: screenWidth,
+                ),
+                _buildResponsiveTextField(
+                  controller: cityController,
+                  label: 'City',
+                  screenWidth: screenWidth,
+                ),
+                _buildResponsiveTextField(
+                  controller: countryController,
+                  label: 'Country',
+                  screenWidth: screenWidth,
+                ),
+                _buildResponsiveTextField(
+                  controller: zipCodeController,
+                  label: 'Zip Code',
+                  keyboardType: TextInputType.number,
+                  screenWidth: screenWidth,
+                ),
+                const SizedBox(height: 20),
+                Center(
+                  child: ElevatedButton(
+                    onPressed: submitOrder,
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: Size(screenWidth * 0.5, 50),
+                    ),
+                    child: const Text('Submit Order'),
+                  ),
+                ),
+              ],
             ),
-            TextField(
-              controller: emailController,
-              decoration: InputDecoration(labelText: 'Email'),
-              keyboardType: TextInputType.emailAddress,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildResponsiveTextField({
+    required TextEditingController controller,
+    required String label,
+    TextInputType keyboardType = TextInputType.text,
+    String? Function(String?)? validator,
+    required double screenWidth,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: SizedBox(
+        width: screenWidth < 600 ? screenWidth * 0.9 : 500,
+        child: TextFormField(
+          controller: controller,
+          keyboardType: keyboardType,
+          decoration: InputDecoration(
+            labelText: label,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8.0),
             ),
-            TextField(
-              controller: contactController,
-              decoration: InputDecoration(labelText: 'Contact Number'),
-              keyboardType: TextInputType.phone,
-            ),
-            TextField(
-              controller: addressController,
-              decoration: InputDecoration(labelText: 'Address'),
-            ),
-            TextField(
-              controller: cityController,
-              decoration: InputDecoration(labelText: 'City'),
-            ),
-            TextField(
-              controller: countryController,
-              decoration: InputDecoration(labelText: 'Country'),
-            ),
-            TextField(
-              controller: zipCodeController,
-              decoration: InputDecoration(labelText: 'Zip Code'),
-              keyboardType: TextInputType.number,
-            ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: submitOrder, // Call the submit order function
-              child: Text('Submit Order'),
-            ),
-          ],
+          ),
+          validator: validator,
         ),
       ),
     );

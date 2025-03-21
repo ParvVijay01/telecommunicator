@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lookme/data/data_provider.dart';
+import 'package:lookme/provider/cart_provider.dart';
 import 'package:lookme/screens/auth/add_user.dart';
 import 'package:lookme/provider/user_provider.dart';
 import 'package:lookme/screens/home/home.dart';
@@ -17,7 +18,7 @@ class _SearchUserScreenState extends State<SearchUserScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final userProvider = Provider.of<UserProvider>(context);
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
 
     return Scaffold(
       appBar: AppBar(
@@ -39,7 +40,7 @@ class _SearchUserScreenState extends State<SearchUserScreen> {
               onChanged: (value) async {
                 if (value.length == 10) {
                   await userProvider.searchUserByPhone(value);
-                  setState(() {}); // 🔹 Force UI to refresh
+                  setState(() {}); // 🔹 Refresh UI
                 } else {
                   userProvider.clearSearchResults();
                   setState(() {});
@@ -48,7 +49,7 @@ class _SearchUserScreenState extends State<SearchUserScreen> {
             ),
             const SizedBox(height: 20),
 
-            // Show only if phone number is incomplete
+            // Display prompt if phone number is incomplete
             if (phoneController.text.length < 10)
               const Center(child: Text("Enter User's phone number")),
 
@@ -56,8 +57,6 @@ class _SearchUserScreenState extends State<SearchUserScreen> {
               Expanded(
                 child: Consumer<UserProvider>(
                   builder: (context, userProvider, child) {
-                    print(
-                        "Rebuilding UI with users: ${userProvider.searchResults}"); // Debugging
                     return userProvider.searchResults.isNotEmpty
                         ? ListView.builder(
                             itemCount: userProvider.searchResults.length,
@@ -71,18 +70,20 @@ class _SearchUserScreenState extends State<SearchUserScreen> {
                                     ? user.phone
                                     : "No Phone"),
                                 onTap: () {
+                                  userProvider.setSelectedUser(user); // Select the user
+  Provider.of<CartProvider>(context, listen: false).clearCart();
                                   userProvider.setSelectedUser(user);
                                   Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) =>
-                                            ChangeNotifierProvider(
-                                              create: (context) =>
-                                                  DataProvider()
-                                                    ..fetchAllCategories()
-                                                    ..fetchProducts(),
-                                              child: Home(),
-                                            )),
+                                      builder: (context) =>
+                                          ChangeNotifierProvider(
+                                        create: (context) => DataProvider()
+                                          ..fetchAllCategories()
+                                          ..fetchProducts(),
+                                        child: Home(),
+                                      ),
+                                    ),
                                   );
                                 },
                               );
@@ -111,8 +112,10 @@ class _SearchUserScreenState extends State<SearchUserScreen> {
                                     );
 
                                     if (result == true) {
+                                      // 🔹 Re-fetch user after adding
                                       await userProvider.searchUserByPhone(
                                           phoneController.text);
+                                      setState(() {}); // 🔹 Refresh UI
                                     }
                                   },
                                   icon: const Icon(Icons.add),

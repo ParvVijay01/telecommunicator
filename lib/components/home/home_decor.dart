@@ -3,11 +3,10 @@ import 'package:lookme/utils/constants/images.dart';
 import 'package:flutter/material.dart';
 
 class HomeDecor extends StatelessWidget {
-
-  const HomeDecor({ super.key });
+  const HomeDecor({super.key});
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 12),
       color: Theme.of(context).cardColor,
@@ -16,7 +15,8 @@ class HomeDecor extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.all(15),
-            child: Text('Home Decor & Furnishings',style: Theme.of(context).textTheme.headlineMedium),
+            child: Text('Home Decor & Furnishings',
+                style: Theme.of(context).textTheme.headlineMedium),
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -28,22 +28,23 @@ class HomeDecor extends StatelessWidget {
                     flex: 1,
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.pushNamed(context, '/product_detail', arguments: ScreenArguments(
-                          'Ergonomic Office Chair'
-                          )
-                        );
+                        Navigator.pushNamed(context, '/product_detail',
+                            arguments:
+                                ScreenArguments('Ergonomic Office Chair'));
                       },
                       child: Container(
                         decoration: BoxDecoration(
-                          border: Border(
-                            right: BorderSide(width: 1,color: Theme.of(context).dividerColor),
-                            top: BorderSide(width: 1,color: Theme.of(context).dividerColor),
-                          )
-                        ),
+                            border: Border(
+                          right: BorderSide(
+                              width: 1, color: Theme.of(context).dividerColor),
+                          top: BorderSide(
+                              width: 1, color: Theme.of(context).dividerColor),
+                        )),
                         padding: const EdgeInsets.all(15),
                         child: AspectRatio(
-                          aspectRatio: 1/1.2,
-                          child: Image.asset(IKImages.product4,fit: BoxFit.contain),
+                          aspectRatio: 1 / 1.2,
+                          child: Image.asset(IKImages.product4,
+                              fit: BoxFit.contain),
                         ),
                       ),
                     ),
@@ -52,21 +53,21 @@ class HomeDecor extends StatelessWidget {
                     flex: 2,
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.pushNamed(context, '/product_detail', arguments: ScreenArguments(
-                          'Ergonomic Office Chair'
-                          )
-                        );
+                        Navigator.pushNamed(context, '/product_detail',
+                            arguments:
+                                ScreenArguments('Ergonomic Office Chair'));
                       },
                       child: Container(
                         decoration: BoxDecoration(
-                          border: Border(
-                            top: BorderSide(width: 1,color: Theme.of(context).dividerColor),
-                          )
-                        ),
+                            border: Border(
+                          top: BorderSide(
+                              width: 1, color: Theme.of(context).dividerColor),
+                        )),
                         padding: const EdgeInsets.all(15),
                         child: AspectRatio(
-                          aspectRatio: 2/1,
-                          child: Image.asset(IKImages.product1,fit: BoxFit.contain),
+                          aspectRatio: 2 / 1,
+                          child: Image.asset(IKImages.product1,
+                              fit: BoxFit.contain),
                         ),
                       ),
                     ),
@@ -79,22 +80,23 @@ class HomeDecor extends StatelessWidget {
                     flex: 1,
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.pushNamed(context, '/product_detail', arguments: ScreenArguments(
-                          'Ergonomic Office Chair'
-                          )
-                        );
+                        Navigator.pushNamed(context, '/product_detail',
+                            arguments:
+                                ScreenArguments('Ergonomic Office Chair'));
                       },
                       child: Container(
                         decoration: BoxDecoration(
-                          border: Border(
-                            right: BorderSide(width: 1,color: Theme.of(context).dividerColor),
-                            top: BorderSide(width: 1,color: Theme.of(context).dividerColor),
-                          )
-                        ),
+                            border: Border(
+                          right: BorderSide(
+                              width: 1, color: Theme.of(context).dividerColor),
+                          top: BorderSide(
+                              width: 1, color: Theme.of(context).dividerColor),
+                        )),
                         padding: const EdgeInsets.all(15),
                         child: AspectRatio(
-                          aspectRatio: 1/1.2,
-                          child: Image.asset(IKImages.product1,fit: BoxFit.contain),
+                          aspectRatio: 1 / 1.2,
+                          child: Image.asset(IKImages.product1,
+                              fit: BoxFit.contain),
                         ),
                       ),
                     ),
@@ -103,22 +105,23 @@ class HomeDecor extends StatelessWidget {
                     flex: 1,
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.pushNamed(context, '/product_detail', arguments: ScreenArguments(
-                          'Ergonomic Office Chair'
-                          )
-                        );
+                        Navigator.pushNamed(context, '/product_detail',
+                            arguments:
+                                ScreenArguments('Ergonomic Office Chair'));
                       },
                       child: Container(
                         decoration: BoxDecoration(
-                          border: Border(
-                            right: BorderSide(width: 1,color: Theme.of(context).dividerColor),
-                            top: BorderSide(width: 1,color: Theme.of(context).dividerColor),
-                          )
-                        ),
+                            border: Border(
+                          right: BorderSide(
+                              width: 1, color: Theme.of(context).dividerColor),
+                          top: BorderSide(
+                              width: 1, color: Theme.of(context).dividerColor),
+                        )),
                         padding: const EdgeInsets.all(15),
                         child: AspectRatio(
-                          aspectRatio: 1/1.2,
-                          child: Image.asset(IKImages.product1,fit: BoxFit.contain),
+                          aspectRatio: 1 / 1.2,
+                          child: Image.asset(IKImages.product1,
+                              fit: BoxFit.contain),
                         ),
                       ),
                     ),
@@ -127,21 +130,22 @@ class HomeDecor extends StatelessWidget {
                     flex: 1,
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.pushNamed(context, '/product_detail', arguments: ScreenArguments(
-                          'Ergonomic Office Chair', 
-                          )
-                        );
+                        Navigator.pushNamed(context, '/product_detail',
+                            arguments: ScreenArguments(
+                              'Ergonomic Office Chair',
+                            ));
                       },
                       child: Container(
                         padding: const EdgeInsets.all(15),
                         decoration: BoxDecoration(
-                          border: Border(
-                            top: BorderSide(width: 1,color: Theme.of(context).dividerColor),
-                          )
-                        ),
+                            border: Border(
+                          top: BorderSide(
+                              width: 1, color: Theme.of(context).dividerColor),
+                        )),
                         child: AspectRatio(
-                          aspectRatio: 1/1.2,
-                          child: Image.asset(IKImages.product1,fit: BoxFit.contain),
+                          aspectRatio: 1 / 1.2,
+                          child: Image.asset(IKImages.product1,
+                              fit: BoxFit.contain),
                         ),
                       ),
                     ),

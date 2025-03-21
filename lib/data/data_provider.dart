@@ -44,7 +44,7 @@ class DataProvider extends ChangeNotifier {
   Future<void> fetchProducts(
       {String category = "All", bool loadMore = false}) async {
     if (!loadMore) {
-      _products.clear(); // ✅ Clear previous products when changing category
+      _products.clear(); // ✅ Clear only when switching categories
       _hasMore = true;
       _currentPage = 1;
     }
@@ -68,10 +68,17 @@ class DataProvider extends ChangeNotifier {
           .map((json) => Product.fromJson(json))
           .toList();
 
-      if (newProducts.isEmpty) _hasMore = false;
+      // ✅ Filter out duplicates before adding
+      final existingIds = _products.map((p) => p.id).toSet();
+      final uniqueProducts =
+          newProducts.where((p) => !existingIds.contains(p.id)).toList();
 
-      _products.addAll(newProducts);
-      _currentPage++;
+      if (uniqueProducts.isEmpty) {
+        _hasMore = false; // No more products to load
+      } else {
+        _products.addAll(uniqueProducts);
+        _currentPage++;
+      }
     } catch (error) {
       print("Error fetching products: $error");
     }

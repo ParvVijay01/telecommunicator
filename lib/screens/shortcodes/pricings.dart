@@ -5,44 +5,40 @@ import 'package:lookme/utils/constants/sizes.dart';
 import 'package:flutter/material.dart';
 
 class Pricings extends StatelessWidget {
-  const Pricings({ super.key });
+  const Pricings({super.key});
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: const Size(IKSizes.container, IKSizes.headerHeight), 
-        child: Container(
-          alignment: Alignment.center,
+          preferredSize: const Size(IKSizes.container, IKSizes.headerHeight),
           child: Container(
-            constraints: const BoxConstraints(
-              maxWidth: IKSizes.container
-            ),
-            child: AppBar(
-              leading: Builder(
-                builder: (context) {
-                  return IconButton(
-                    icon:Icon(Icons.arrow_back_ios,size: 20),
-                    iconSize: 28,
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                  );
-                },
+            alignment: Alignment.center,
+            child: Container(
+              constraints: const BoxConstraints(maxWidth: IKSizes.container),
+              child: AppBar(
+                leading: Builder(
+                  builder: (context) {
+                    return IconButton(
+                      icon: Icon(Icons.arrow_back_ios, size: 20),
+                      iconSize: 28,
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    );
+                  },
+                ),
+                title: const Text('Pricings'),
+                centerTitle: true,
+                bottom: PreferredSize(
+                    preferredSize: const Size.fromHeight(1.0),
+                    child: Container(
+                      color: IKColors.light,
+                      height: 1.0,
+                    )),
               ),
-              title: const Text('Pricings'),
-              centerTitle: true,
-              bottom: PreferredSize(
-                preferredSize: const Size.fromHeight(1.0),
-                child: Container(
-                    color: IKColors.light,
-                    height: 1.0,
-                )
-              ),
             ),
-          ),
-        )
-      ),
+          )),
       body: Container(
         alignment: Alignment.topCenter,
         child: Container(
@@ -52,17 +48,12 @@ class Pricings extends StatelessWidget {
           child: SingleChildScrollView(
             padding: const EdgeInsets.all(15),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Center(
-                  child: PricingCard()
-                ),
-                const SizedBox(height: 30),
-                Center(
-                  child: PricingCard2()
-                ),
-              ]
-            ),
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Center(child: PricingCard()),
+                  const SizedBox(height: 30),
+                  Center(child: PricingCard2()),
+                ]),
           ),
         ),
       ),

@@ -15,7 +15,11 @@ class IKHeaderTheme {
     surfaceTintColor: Colors.transparent,
     iconTheme: IconThemeData(color: IKColors.title, size: 24),
     actionsIconTheme: IconThemeData(color: IKColors.title, size: 24),
-    titleTextStyle: TextStyle(fontSize: 20.0,fontFamily: 'Jost',fontWeight: FontWeight.w500,color: IKColors.title),
+    titleTextStyle: TextStyle(
+        fontSize: 20.0,
+        fontFamily: 'Jost',
+        fontWeight: FontWeight.w500,
+        color: IKColors.title),
   );
 
   // dark mode Header theme
@@ -28,7 +32,10 @@ class IKHeaderTheme {
     surfaceTintColor: Colors.transparent,
     iconTheme: IconThemeData(color: Colors.white, size: 24),
     actionsIconTheme: IconThemeData(color: Colors.white, size: 24),
-    titleTextStyle: TextStyle(fontSize: 20.0,fontFamily: 'Jost',fontWeight: FontWeight.w500,color: Colors.white),
+    titleTextStyle: TextStyle(
+        fontSize: 20.0,
+        fontFamily: 'Jost',
+        fontWeight: FontWeight.w500,
+        color: Colors.white),
   );
-
 }

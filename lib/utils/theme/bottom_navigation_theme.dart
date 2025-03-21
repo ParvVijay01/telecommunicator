@@ -41,5 +41,4 @@ class IKBottomNavigationTheme {
       color: IKColors.primary,
     ),
   );
-
 }
