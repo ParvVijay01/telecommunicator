@@ -8,22 +8,20 @@ class CartProvider with ChangeNotifier {
   void addItem({
     required dynamic id,
     required String title,
-    required double? price, // Nullable price
-    required double? originalPrice, // Nullable original price
+    required double? price,
+    required double? originalPrice,
     required String image,
   }) {
     int index = _items.indexWhere((item) => item['id'] == id);
 
     if (index != -1) {
-      // If item exists, increase its quantity
       _items[index]['quantity'] += 1;
     } else {
-      // Otherwise, add new item with quantity 1
       _items.add({
         'id': id,
         'title': title,
-        'price': price ?? 0.0, // Default to 0.0 if null
-        'originalPrice': originalPrice ?? 0.0, // Default to 0.0 if null
+        'price': price ?? 0.0,
+        'originalPrice': originalPrice ?? 0.0,
         'image': image,
         'quantity': 1,
       });
@@ -48,7 +46,15 @@ class CartProvider with ChangeNotifier {
     int index = _items.indexWhere((item) => item['id'] == id);
     if (index != -1 && _items[index]['quantity'] > 1) {
       _items[index]['quantity'] -= 1;
-      notifyListeners(); // Notify listeners when quantity is updated
+      notifyListeners();
+    }
+  }
+
+  void updateQuantity(dynamic id, int newQuantity) {
+    int index = _items.indexWhere((item) => item['id'] == id);
+    if (index != -1 && newQuantity > 0) {
+      _items[index]['quantity'] = newQuantity;
+      notifyListeners();
     }
   }
 
@@ -58,14 +64,10 @@ class CartProvider with ChangeNotifier {
   }
 
   double get subtotal => _items.fold(
-      0,
-      (sum, item) =>
-          sum + (item['price'] as double) * (item['quantity'] as int));
+      0, (sum, item) => sum + (item['price'] as double) * (item['quantity'] as int));
 
   double get originalTotal => _items.fold(
-      0,
-      (sum, item) =>
-          sum + (item['originalPrice'] as double) * (item['quantity'] as int));
+      0, (sum, item) => sum + (item['originalPrice'] as double) * (item['quantity'] as int));
 
   double get discount => originalTotal - subtotal;
 

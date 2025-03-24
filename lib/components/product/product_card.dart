@@ -192,11 +192,14 @@ class _ProductCardState extends State<ProductCard> {
                   : Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        // Decrease Quantity Button
                         Container(
                           decoration: BoxDecoration(
-                              shape: BoxShape.circle, color: IKColors.primary),
+                            shape: BoxShape.circle,
+                            color: IKColors.primary,
+                          ),
                           child: IconButton(
-                            icon: const Icon(Icons.remove),
+                            icon: const Icon(Icons.remove, color: Colors.white),
                             onPressed: () {
                               if (cartQuantity > 1) {
                                 decreaseQuantity();
@@ -206,14 +209,49 @@ class _ProductCardState extends State<ProductCard> {
                             },
                           ),
                         ),
-                        Text('$cartQuantity',
-                            style: Theme.of(context).textTheme.bodyLarge),
-                        IconButton(
-                          icon: const Icon(Icons.add),
-                          onPressed: addToCart,
+                        const SizedBox(width: 6),
+
+                        // Quantity Input Field
+                        SizedBox(
+                          width: 50, // Adjust width as needed
+                          child: TextField(
+                            textAlign: TextAlign.center,
+                            keyboardType: TextInputType.number,
+                            controller: TextEditingController(
+                                text: cartQuantity.toString()),
+                            onSubmitted: (value) {
+                              int? newQuantity = int.tryParse(value);
+                              if (newQuantity != null && newQuantity > 0) {
+                                Provider.of<CartProvider>(context,
+                                        listen: false)
+                                    .updateQuantity(widget.id, newQuantity);
+                              }
+                            },
+                            decoration: InputDecoration(
+                              contentPadding:
+                                  const EdgeInsets.symmetric(vertical: 8),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                            ),
+                          ),
+                        ),
+
+                        const SizedBox(width: 6),
+
+                        // Increase Quantity Button
+                        Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: IKColors.primary,
+                          ),
+                          child: IconButton(
+                            icon: const Icon(Icons.add, color: Colors.white),
+                            onPressed: addToCart,
+                          ),
                         ),
                       ],
-                    ),
+                    )
           ],
         ),
       ),
