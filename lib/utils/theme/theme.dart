@@ -1,10 +1,10 @@
-import 'package:lookme/utils/constants/colors.dart';
-import 'package:lookme/utils/theme/badge_theme.dart';
-import 'package:lookme/utils/theme/bottom_navigation_theme.dart';
-import 'package:lookme/utils/theme/button_theme.dart';
-import 'package:lookme/utils/theme/card_theme.dart';
-import 'package:lookme/utils/theme/header_theme.dart';
-import 'package:lookme/utils/theme/text_theme.dart';
+import 'package:jctelecaller/utils/constants/colors.dart';
+import 'package:jctelecaller/utils/theme/badge_theme.dart';
+import 'package:jctelecaller/utils/theme/bottom_navigation_theme.dart';
+import 'package:jctelecaller/utils/theme/button_theme.dart';
+import 'package:jctelecaller/utils/theme/card_theme.dart';
+import 'package:jctelecaller/utils/theme/header_theme.dart';
+import 'package:jctelecaller/utils/theme/text_theme.dart';
 import 'package:flutter/material.dart';
 
 class IKAppTheme {

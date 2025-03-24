@@ -1,6 +1,6 @@
-import 'package:lookme/components/charts/pie_chart.dart';
-import 'package:lookme/utils/constants/colors.dart';
-import 'package:lookme/utils/constants/sizes.dart';
+import 'package:jctelecaller/components/charts/pie_chart.dart';
+import 'package:jctelecaller/utils/constants/colors.dart';
+import 'package:jctelecaller/utils/constants/sizes.dart';
 import 'package:flutter/material.dart';
 
 class Charts extends StatelessWidget {

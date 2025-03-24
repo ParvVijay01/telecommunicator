@@ -1,19 +1,19 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:lookme/models/category.dart';
-import 'package:lookme/models/product.dart';
-import 'package:lookme/service/http_service.dart';
+import 'package:jctelecaller/models/category.dart';
+import 'package:jctelecaller/models/product.dart';
+import 'package:jctelecaller/service/http_service.dart';
 
 class DataProvider extends ChangeNotifier {
   HttpService service = HttpService();
   List<Category> _categories = [];
-  List<Product> _products = [];
+  final List<Product> _products = [];
   bool _isLoading = false;
   int _currentPage = 1;
   final int _limit = 10;
   bool _hasMore = true;
-  String _selectedCategory = "All";
+  final String _selectedCategory = "All";
 
   List<Category> get categories => _categories;
   List<Product> get products => _products;

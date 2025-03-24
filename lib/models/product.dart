@@ -4,7 +4,7 @@ class Product {
   final String? productId;
   final String? sku;
   final String? barcode;
-  final Map<String, dynamic>? title;
+  final Map<String, dynamic> title;
   final Map<String, dynamic>? description;
   final String slug;
   final List<String>? categories;
@@ -23,7 +23,7 @@ class Product {
     this.productId,
     this.sku,
     this.barcode,
-    this.title,
+    required this.title,
     this.description,
     required this.slug,
     this.categories,

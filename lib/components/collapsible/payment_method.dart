@@ -1,5 +1,5 @@
-import 'package:lookme/utils/constants/colors.dart';
-import 'package:lookme/utils/constants/svg.dart';
+import 'package:jctelecaller/utils/constants/colors.dart';
+import 'package:jctelecaller/utils/constants/svg.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -50,7 +50,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
                           ),
                           const SizedBox(width: 7),
                           Expanded(
-                              child: Text('Cash on Delivery(Cash/UPI)',
+                              child: Text('cash(Cash/UPI)',
                                   style: Theme.of(context)
                                       .textTheme
                                       .titleMedium

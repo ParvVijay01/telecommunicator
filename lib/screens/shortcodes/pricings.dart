@@ -1,7 +1,7 @@
-import 'package:lookme/components/pricings/pricing_card.dart';
-import 'package:lookme/components/pricings/pricing_card2.dart';
-import 'package:lookme/utils/constants/colors.dart';
-import 'package:lookme/utils/constants/sizes.dart';
+import 'package:jctelecaller/components/pricings/pricing_card.dart';
+import 'package:jctelecaller/components/pricings/pricing_card2.dart';
+import 'package:jctelecaller/utils/constants/colors.dart';
+import 'package:jctelecaller/utils/constants/sizes.dart';
 import 'package:flutter/material.dart';
 
 class Pricings extends StatelessWidget {

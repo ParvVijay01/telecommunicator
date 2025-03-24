@@ -1,11 +1,11 @@
 // ignore_for_file: deprecated_member_use
-import 'package:lookme/utils/constants/sizes.dart';
-import 'package:lookme/utils/constants/svg.dart';
+import 'package:jctelecaller/utils/constants/sizes.dart';
+import 'package:jctelecaller/utils/constants/svg.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:lookme/screens/cart/cart.dart';
-import 'package:lookme/screens/home/home.dart';
-import 'package:lookme/screens/profile/profile.dart';
+import 'package:jctelecaller/screens/cart/cart.dart';
+import 'package:jctelecaller/screens/home/home.dart';
+import 'package:jctelecaller/screens/profile/profile.dart';
 
 final List<Map<String, String>> iconList = [
   {

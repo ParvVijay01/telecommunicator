@@ -1,4 +1,4 @@
-name: lookme
+name: jctelecaller
 description: "A new Flutter project."
 publish_to: 'none'
 version: 0.1.0
@@ -65,9 +65,9 @@ flutter:
         - asset: assets/fonts/DMSerifDisplay-Italic.ttf
           style: italic
 
-# flutter_icons:
-#   android: true
-#   ios: true
-#   image_path: "assets/images/logo-icon.png"  # Path to your app icon image
-#   adaptive_icon_background: "#FFFFFF"    # (Optional) Background color for Android adaptive icons
-#   adaptive_icon_foreground: "assets/images/logo-icon.png"  # Foreground for adaptive icons
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/logo-icon.png"  # Path to your app icon image
+  adaptive_icon_background: "#FFFFFF"    # (Optional) Background color for Android adaptive icons
+  adaptive_icon_foreground: "assets/images/logo-icon.png"  # Foreground for adaptive icons

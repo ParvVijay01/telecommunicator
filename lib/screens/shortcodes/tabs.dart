@@ -1,5 +1,5 @@
-import 'package:lookme/utils/constants/colors.dart';
-import 'package:lookme/utils/constants/sizes.dart';
+import 'package:jctelecaller/utils/constants/colors.dart';
+import 'package:jctelecaller/utils/constants/sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:tab_container/tab_container.dart';
 

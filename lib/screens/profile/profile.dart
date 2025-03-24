@@ -1,9 +1,9 @@
-import 'package:lookme/components/bottomsheet/notification_sheet.dart';
-import 'package:lookme/components/list/list_item.dart';
-import 'package:lookme/utils/constants/colors.dart';
-import 'package:lookme/utils/constants/images.dart';
-import 'package:lookme/utils/constants/sizes.dart';
-import 'package:lookme/utils/constants/svg.dart';
+import 'package:jctelecaller/components/bottomsheet/notification_sheet.dart';
+import 'package:jctelecaller/components/list/list_item.dart';
+import 'package:jctelecaller/utils/constants/colors.dart';
+import 'package:jctelecaller/utils/constants/images.dart';
+import 'package:jctelecaller/utils/constants/sizes.dart';
+import 'package:jctelecaller/utils/constants/svg.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 

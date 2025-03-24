@@ -1,6 +1,6 @@
-import 'package:lookme/utils/constants/colors.dart';
-import 'package:lookme/utils/constants/images.dart';
-import 'package:lookme/utils/constants/sizes.dart';
+import 'package:jctelecaller/utils/constants/colors.dart';
+import 'package:jctelecaller/utils/constants/images.dart';
+import 'package:jctelecaller/utils/constants/sizes.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 
@@ -160,7 +160,7 @@ class _LoginSheet2State extends State<LoginSheet2> {
                   const SizedBox(height: 12),
                   RichText(
                     text: TextSpan(
-                      text: "By continuing, you agree to lookme's",
+                      text: "By continuing, you agree to jctelecaller's",
                       style: Theme.of(context)
                           .textTheme
                           .titleMedium

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:lookme/provider/cart_provider.dart';
+import 'package:jctelecaller/provider/cart_provider.dart';
+import 'package:jctelecaller/utils/constants/colors.dart';
 import 'package:provider/provider.dart';
 
 class Cart extends StatefulWidget {
@@ -41,14 +42,15 @@ class _CartState extends State<Cart> {
                                     Image.asset('assets/images/logo.png',
                                         width: 50, height: 50),
                               ),
-                              title: Text(item['title']),
+                              title: Text(item['title'], style: TextStyle(color: Colors.black, fontWeight: FontWeight.w700),),
                               subtitle: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    "Price: \₹${item['originalPrice']}",
+                                    "Price: ₹${item['originalPrice']}",
                                     style: const TextStyle(
-                                      color: Colors.grey,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w500
                                     ),
                                   ),
                                   const SizedBox(height: 5),
@@ -113,14 +115,15 @@ class _CartState extends State<Cart> {
                               isBold: true),
                           const SizedBox(height: 10),
                           ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: IKColors.primary),
                             onPressed: () {
                               // Navigate to the checkout page with default payment method set to COD
                               Navigator.pushNamed(
                                 context,
                                 "/checkout",
                                 arguments: {
-                                  'paymentMethod':
-                                      'Cash on Delivery', // Set COD as default
+                                  'paymentMethod': 'cash', // Set COD as default
                                   'cart':
                                       cartProvider.items, // Pass the cart items
                                   'subTotal': cartProvider.subtotal,
@@ -149,12 +152,13 @@ class _CartState extends State<Cart> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(title, style: const TextStyle(fontSize: 16)),
+          Text(title, style: const TextStyle(fontSize: 16, fontWeight:  FontWeight.bold ,
+              color: Colors.black,)),
           Text(
             value,
             style: TextStyle(
               fontSize: 16,
-              fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
+              fontWeight:  FontWeight.bold ,
               color: color ?? Colors.black,
             ),
           ),

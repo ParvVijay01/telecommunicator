@@ -1,11 +1,11 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_login/flutter_login.dart';
-import 'package:lookme/provider/user_provider.dart';
-import 'package:lookme/utils/constants/images.dart';
-import 'package:lookme/utils/constants/colors.dart';
-import 'package:lookme/utils/constants/sizes.dart';
-import 'package:lookme/utility/snackbar_helper.dart';
+import 'package:jctelecaller/provider/user_provider.dart';
+import 'package:jctelecaller/utils/constants/images.dart';
+import 'package:jctelecaller/utils/constants/colors.dart';
+import 'package:jctelecaller/utils/constants/sizes.dart';
+import 'package:jctelecaller/utility/snackbar_helper.dart';
 import 'package:provider/provider.dart';
 
 class SignIn extends StatefulWidget {
@@ -107,12 +107,17 @@ class _SignInState extends State<SignIn> {
                         ),
                         const SizedBox(height: 15),
                         TextField(
+
                           controller: _emailController,
                           decoration: InputDecoration(
                             labelText: 'Email Address',
                             contentPadding: const EdgeInsets.all(15),
                             filled: true,
-                            border: const OutlineInputBorder(),
+                            floatingLabelStyle: TextStyle(color: IKColors.primary),
+                            focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: IKColors.primary,)),
+                            border: const OutlineInputBorder(
+                            
+                            ),
                             fillColor: Theme.of(context).canvasColor,
                           ),
                         ),
@@ -121,6 +126,8 @@ class _SignInState extends State<SignIn> {
                           controller: _passwordController,
                           obscureText: true,
                           decoration: InputDecoration(
+                            floatingLabelStyle: TextStyle(color: IKColors.primary),
+                            focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: IKColors.primary,)),
                             labelText: 'Password',
                             contentPadding: const EdgeInsets.all(15),
                             filled: true,
@@ -129,42 +136,14 @@ class _SignInState extends State<SignIn> {
                           ),
                         ),
                         const SizedBox(height: 5),
-                        RichText(
-                          textAlign: TextAlign.right,
-                          text: TextSpan(
-                            children: <TextSpan>[
-                              TextSpan(
-                                text: 'Forgot Password?',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .labelMedium
-                                    ?.copyWith(
-                                      color: Theme.of(context)
-                                          .textTheme
-                                          .titleMedium
-                                          ?.color,
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w500,
-                                      decoration: TextDecoration.underline,
-                                    ),
-                                recognizer: TapGestureRecognizer()
-                                  ..onTap = () {
-                                    Navigator.pushNamed(context, '/forget');
-                                  },
-                              ),
-                            ],
-                          ),
-                        ),
+                        
                         const SizedBox(height: 25),
                         Padding(
                           padding: const EdgeInsets.all(0.0),
                           child: ElevatedButton(
                             onPressed: _isLoading ? null : _login,
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Theme.of(context)
-                                  .textTheme
-                                  .titleMedium
-                                  ?.color,
+                              backgroundColor: IKColors.primary,
                               side: const BorderSide(color: IKColors.secondary),
                               foregroundColor: Theme.of(context).cardColor,
                             ),

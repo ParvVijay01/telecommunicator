@@ -1,7 +1,7 @@
-import 'package:lookme/components/list/list_item.dart';
-import 'package:lookme/utils/constants/colors.dart';
-import 'package:lookme/utils/constants/images.dart';
-import 'package:lookme/utils/constants/sizes.dart';
+import 'package:jctelecaller/components/list/list_item.dart';
+import 'package:jctelecaller/utils/constants/colors.dart';
+import 'package:jctelecaller/utils/constants/images.dart';
+import 'package:jctelecaller/utils/constants/sizes.dart';
 import 'package:flutter/material.dart';
 
 class Lists extends StatelessWidget {

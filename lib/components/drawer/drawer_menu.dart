@@ -1,7 +1,7 @@
-import 'package:lookme/provider/user_provider.dart';
-import 'package:lookme/utils/constants/colors.dart';
-import 'package:lookme/utils/constants/images.dart';
-import 'package:lookme/utils/constants/svg.dart';
+import 'package:jctelecaller/provider/user_provider.dart';
+import 'package:jctelecaller/utils/constants/colors.dart';
+import 'package:jctelecaller/utils/constants/images.dart';
+import 'package:jctelecaller/utils/constants/svg.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
@@ -147,7 +147,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "lookme eCommerce Store",
+                    "jctelecaller eCommerce Store",
                     style: Theme.of(context).textTheme.titleMedium?.merge(
                         const TextStyle(fontSize: 13, color: IKColors.primary)),
                   ),

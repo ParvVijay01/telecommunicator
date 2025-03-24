@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lookme/utils/constants/colors.dart';
+import 'package:jctelecaller/utils/constants/colors.dart';
 
 class IKBadgeTheme {
   IKBadgeTheme._();

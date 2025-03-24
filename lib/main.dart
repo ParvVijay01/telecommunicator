@@ -1,11 +1,11 @@
 import 'package:get_storage/get_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:lookme/data/data_provider.dart';
-import 'package:lookme/provider/cart_provider.dart';
-import 'package:lookme/provider/user_provider.dart';
-import 'package:lookme/routes/router.dart';
-import 'package:lookme/utils/theme/theme.dart';
+import 'package:jctelecaller/data/data_provider.dart';
+import 'package:jctelecaller/provider/cart_provider.dart';
+import 'package:jctelecaller/provider/user_provider.dart';
+import 'package:jctelecaller/routes/router.dart';
+import 'package:jctelecaller/utils/theme/theme.dart';
 import 'package:provider/provider.dart';
 
 void main() async {

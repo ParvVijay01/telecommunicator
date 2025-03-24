@@ -1,6 +1,6 @@
 // ignore_for_file: file_names
 
-import 'package:lookme/utils/constants/colors.dart';
+import 'package:jctelecaller/utils/constants/colors.dart';
 import 'package:flutter/material.dart';
 
 class GenderItem {

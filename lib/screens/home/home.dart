@@ -1,11 +1,11 @@
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:lookme/components/product/product_card.dart';
-import 'package:lookme/data/data_provider.dart';
+import 'package:jctelecaller/components/product/product_card.dart';
+import 'package:jctelecaller/data/data_provider.dart';
 
-import 'package:lookme/provider/user_provider.dart';
+import 'package:jctelecaller/provider/user_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:lookme/utils/constants/colors.dart';
-import 'package:lookme/utils/constants/svg.dart';
+import 'package:jctelecaller/utils/constants/colors.dart';
+import 'package:jctelecaller/utils/constants/svg.dart';
 import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {
@@ -61,14 +61,11 @@ class _HomeState extends State<Home> {
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(80),
         child: AppBar(
-          leading: IconButton(
-              onPressed: () {
-                Navigator.pushNamed(context, "/search_user");
-              },
-              icon: Icon(Icons.person)),
+          automaticallyImplyLeading: false,
           title: Padding(
-            padding: const EdgeInsets.all(5.0),
+            padding: const EdgeInsets.all(10.0),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Image.asset(
                   'assets/images/logo.png',
@@ -82,9 +79,13 @@ class _HomeState extends State<Home> {
               ],
             ),
           ),
-          centerTitle: true,
           titleSpacing: 5,
           actions: [
+            IconButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, "/search_user");
+                },
+                icon: Icon(Icons.person_outline, color: IKColors.primary)),
             IconButton(
               onPressed: () {
                 Navigator.pushNamed(context, '/cart');
@@ -121,7 +122,9 @@ class _HomeState extends State<Home> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15),
                 child: TextField(
+                  cursorColor: IKColors.primary,
                   decoration: InputDecoration(
+                    
                     contentPadding: const EdgeInsets.symmetric(
                         horizontal: 50, vertical: 15),
                     hintText: 'Search Something...',
@@ -131,8 +134,14 @@ class _HomeState extends State<Home> {
                       color: Color(0xFF878787),
                       size: 24,
                     ),
-                    border: const OutlineInputBorder(),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
                     fillColor: Theme.of(context).canvasColor,
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: IKColors.primary),
+                      borderRadius: BorderRadius.circular(20)
+                    ),
                   ),
                 ),
               ),
@@ -164,7 +173,6 @@ class _HomeState extends State<Home> {
                       review: product.sales?.toString() ?? '0',
                       category: product.category,
                       addCartBtn: true,
-                      inWishlist: '0',
                       stock: product.stock ?? 0,
                     );
                   },

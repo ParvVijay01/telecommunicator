@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:lookme/provider/cart_provider.dart';
-import 'package:lookme/provider/user_provider.dart';
+import 'package:jctelecaller/provider/cart_provider.dart';
+import 'package:jctelecaller/provider/user_provider.dart';
 import 'package:provider/provider.dart';
 
 extension Providers on BuildContext {

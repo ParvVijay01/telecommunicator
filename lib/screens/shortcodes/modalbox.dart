@@ -1,10 +1,10 @@
-import 'package:lookme/components/list/list_item.dart';
-import 'package:lookme/components/modal/confirm_modal.dart';
-import 'package:lookme/components/modal/login_modal.dart';
-import 'package:lookme/components/modal/register_modal.dart';
-import 'package:lookme/components/modal/success_modal.dart';
-import 'package:lookme/utils/constants/colors.dart';
-import 'package:lookme/utils/constants/sizes.dart';
+import 'package:jctelecaller/components/list/list_item.dart';
+import 'package:jctelecaller/components/modal/confirm_modal.dart';
+import 'package:jctelecaller/components/modal/login_modal.dart';
+import 'package:jctelecaller/components/modal/register_modal.dart';
+import 'package:jctelecaller/components/modal/success_modal.dart';
+import 'package:jctelecaller/utils/constants/colors.dart';
+import 'package:jctelecaller/utils/constants/sizes.dart';
 import 'package:flutter/material.dart';
 
 class ModalBox extends StatelessWidget {

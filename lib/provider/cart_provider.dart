@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class CartProvider with ChangeNotifier {
-  List<Map<String, dynamic>> _items = [];
+  final List<Map<String, dynamic>> _items = [];
 
   List<Map<String, dynamic>> get items => _items;
 
@@ -46,14 +46,15 @@ class CartProvider with ChangeNotifier {
 
   void decreaseQuantity(dynamic id) {
     int index = _items.indexWhere((item) => item['id'] == id);
-    if (index != -1) {
-      if (_items[index]['quantity'] > 1) {
-        _items[index]['quantity'] -= 1;
-      } else {
-        _items.removeAt(index);
-      }
-      notifyListeners();
+    if (index != -1 && _items[index]['quantity'] > 1) {
+      _items[index]['quantity'] -= 1;
+      notifyListeners(); // Notify listeners when quantity is updated
     }
+  }
+
+  int getQuantity(dynamic id) {
+    int index = _items.indexWhere((item) => item['id'] == id);
+    return (index != -1) ? _items[index]['quantity'] : 0;
   }
 
   double get subtotal => _items.fold(

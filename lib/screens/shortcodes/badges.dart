@@ -1,8 +1,8 @@
-import 'package:lookme/components/badge/badge_light.dart';
-import 'package:lookme/components/badge/custom_badge.dart';
-import 'package:lookme/components/badge/outline_badge.dart';
-import 'package:lookme/utils/constants/colors.dart';
-import 'package:lookme/utils/constants/sizes.dart';
+import 'package:jctelecaller/components/badge/badge_light.dart';
+import 'package:jctelecaller/components/badge/custom_badge.dart';
+import 'package:jctelecaller/components/badge/outline_badge.dart';
+import 'package:jctelecaller/utils/constants/colors.dart';
+import 'package:jctelecaller/utils/constants/sizes.dart';
 import 'package:flutter/material.dart';
 
 class Badges extends StatelessWidget {

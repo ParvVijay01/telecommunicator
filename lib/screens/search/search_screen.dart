@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:lookme/components/category/category_item.dart';
-import 'package:lookme/utils/constants/colors.dart';
-import 'package:lookme/utils/constants/sizes.dart';
+import 'package:jctelecaller/components/category/category_item.dart';
+import 'package:jctelecaller/utils/constants/colors.dart';
+import 'package:jctelecaller/utils/constants/sizes.dart';
 
 class SearchScreen extends StatelessWidget {
   SearchScreen({super.key});

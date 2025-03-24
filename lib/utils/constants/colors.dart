@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class IKColors {
   IKColors._();
 
-  static const Color primary = Color(0xFFCC0D39);
+  static const Color primary = Color(0xFFE40882);
   static const Color secondary = Color.fromARGB(255, 0, 0, 0);
   static const Color danger = Color(0xFFEB5757);
   static const Color success = Color(0xFF219653);

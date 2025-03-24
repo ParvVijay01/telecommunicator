@@ -14,6 +14,16 @@ class HttpService {
     ),
   );
 
+  HttpService() {
+    dio.interceptors.add(LogInterceptor(
+      request: true,
+      requestHeader: true,
+      requestBody: true,
+      responseBody: true,
+      error: true,
+    ));
+  }
+
   /// 🔹 GET Request - Fetch data from API
   Future<Response?> getItems(
       {required String endpointUrl,

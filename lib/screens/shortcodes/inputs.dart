@@ -1,7 +1,7 @@
-import 'package:lookme/components/input/border_input.dart';
-import 'package:lookme/components/input/input.dart';
-import 'package:lookme/utils/constants/colors.dart';
-import 'package:lookme/utils/constants/sizes.dart';
+import 'package:jctelecaller/components/input/border_input.dart';
+import 'package:jctelecaller/components/input/input.dart';
+import 'package:jctelecaller/utils/constants/colors.dart';
+import 'package:jctelecaller/utils/constants/sizes.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 

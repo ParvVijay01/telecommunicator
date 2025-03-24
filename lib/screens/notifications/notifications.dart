@@ -1,7 +1,7 @@
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:lookme/screens/shortcodes/swipeables.dart';
-import 'package:lookme/utils/constants/images.dart';
-import 'package:lookme/utils/constants/sizes.dart';
+import 'package:jctelecaller/screens/shortcodes/swipeables.dart';
+import 'package:jctelecaller/utils/constants/images.dart';
+import 'package:jctelecaller/utils/constants/sizes.dart';
 import 'package:flutter/material.dart';
 
 import '../../utils/constants/colors.dart';

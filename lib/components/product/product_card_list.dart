@@ -1,6 +1,6 @@
-import 'package:lookme/components/product/product_card.dart';
-import 'package:lookme/utils/constants/colors.dart';
-import 'package:lookme/utils/constants/svg.dart';
+import 'package:jctelecaller/components/product/product_card.dart';
+import 'package:jctelecaller/utils/constants/colors.dart';
+import 'package:jctelecaller/utils/constants/svg.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 

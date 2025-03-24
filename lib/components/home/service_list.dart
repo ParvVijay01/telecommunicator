@@ -1,5 +1,5 @@
-import 'package:lookme/components/home/service_card.dart';
-import 'package:lookme/utils/constants/svg.dart';
+import 'package:jctelecaller/components/home/service_card.dart';
+import 'package:jctelecaller/utils/constants/svg.dart';
 import 'package:flutter/material.dart';
 
 class ServiceList extends StatelessWidget {

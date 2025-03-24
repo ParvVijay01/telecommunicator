@@ -1,5 +1,5 @@
-import 'package:lookme/components/product/product_card.dart';
-import 'package:lookme/utils/constants/images.dart';
+import 'package:jctelecaller/components/product/product_card.dart';
+import 'package:jctelecaller/utils/constants/images.dart';
 import 'package:flutter/material.dart';
 
 class HomeDecor extends StatelessWidget {
