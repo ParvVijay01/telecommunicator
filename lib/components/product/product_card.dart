@@ -6,7 +6,6 @@ import 'package:provider/provider.dart';
 
 class ScreenArguments {
   final dynamic id;
-
   ScreenArguments(this.id);
 }
 
@@ -100,32 +99,26 @@ class _ProductCardState extends State<ProductCard> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Stack(
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: AspectRatio(
-                    aspectRatio: 1 / 1.4,
-                    child: widget.images != null &&
-                            widget.images!.isNotEmpty &&
-                            widget.images!.first.isNotEmpty
-                        ? CachedNetworkImage(
-                            imageUrl: widget.images!.first,
-                            placeholder: (context, url) => const Center(
-                                child: CircularProgressIndicator()),
-                            errorWidget: (context, url, error) => Image.asset(
-                              'assets/images/logo.png',
-                              fit: BoxFit.cover,
-                            ),
-                            fit: BoxFit.cover,
-                          )
-                        : Image.asset(
-                            'assets/images/logo.png',
-                            fit: BoxFit.cover,
-                          ),
-                  ),
-                ),
-              ],
+            ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: AspectRatio(
+                aspectRatio: 1 / 1.4,
+                child: widget.images != null && widget.images!.isNotEmpty
+                    ? CachedNetworkImage(
+                        imageUrl: widget.images!.first,
+                        placeholder: (context, url) => const Center(
+                            child: CircularProgressIndicator()),
+                        errorWidget: (context, url, error) => Image.asset(
+                          'assets/images/logo.png',
+                          fit: BoxFit.cover,
+                        ),
+                        fit: BoxFit.cover,
+                      )
+                    : Image.asset(
+                        'assets/images/logo.png',
+                        fit: BoxFit.cover,
+                      ),
+              ),
             ),
             const SizedBox(height: 10),
             if (widget.category != null)
@@ -133,6 +126,7 @@ class _ProductCardState extends State<ProductCard> {
                 widget.category!['name']?['en'] ?? 'No Category',
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
                     color: IKColors.primary, fontWeight: FontWeight.w600),
+                overflow: TextOverflow.ellipsis,
               ),
             const SizedBox(height: 5),
             Text(
@@ -147,34 +141,43 @@ class _ProductCardState extends State<ProductCard> {
             const SizedBox(height: 6),
             Row(
               children: [
-                Text(
-                  '₹${widget.price.toStringAsFixed(2)}',
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleLarge
-                      ?.copyWith(fontSize: 16),
+                Expanded(
+                  child: Text(
+                    '₹${widget.price.toStringAsFixed(2)}',
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleLarge
+                        ?.copyWith(fontSize: 16),
+                  ),
                 ),
                 const SizedBox(width: 6),
-                Text(
-                  '₹${widget.originalPrice.toStringAsFixed(2)}',
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        decoration: TextDecoration.lineThrough,
-                        color: Colors.grey,
-                      ),
+                Expanded(
+                  child: Text(
+                    '₹${widget.originalPrice.toStringAsFixed(2)}',
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          decoration: TextDecoration.lineThrough,
+                          color: Colors.grey,
+                        ),
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
                 const SizedBox(width: 6),
                 const Icon(Icons.star, size: 16, color: Color(0xFFFFA048)),
                 const SizedBox(width: 6),
-                Text(
-                  widget.review,
-                  style: Theme.of(context).textTheme.bodySmall,
+                Expanded(
+                  child: Text(
+                    widget.review,
+                    style: Theme.of(context).textTheme.bodySmall,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
               ],
             ),
             const SizedBox(height: 10),
             if (widget.addCartBtn != null)
               cartQuantity == 0
-                  ? Center(
+                  ? SizedBox(
+                      width: double.infinity,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           backgroundColor: IKColors.primary,
@@ -192,63 +195,17 @@ class _ProductCardState extends State<ProductCard> {
                   : Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        // Decrease Quantity Button
-                        Container(
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: IKColors.primary,
-                          ),
-                          child: IconButton(
-                            icon: const Icon(Icons.remove, color: Colors.white),
-                            onPressed: () {
-                              if (cartQuantity > 1) {
-                                decreaseQuantity();
-                              } else {
-                                removeFromCart();
-                              }
-                            },
-                          ),
+                        IconButton(
+                          icon: const Icon(Icons.remove, color: Colors.white),
+                          onPressed: cartQuantity > 1
+                              ? decreaseQuantity
+                              : removeFromCart,
                         ),
-                        const SizedBox(width: 6),
-
-                        // Quantity Input Field
-                        SizedBox(
-                          width: 50, // Adjust width as needed
-                          child: TextField(
-                            textAlign: TextAlign.center,
-                            keyboardType: TextInputType.number,
-                            controller: TextEditingController(
-                                text: cartQuantity.toString()),
-                            onSubmitted: (value) {
-                              int? newQuantity = int.tryParse(value);
-                              if (newQuantity != null && newQuantity > 0) {
-                                Provider.of<CartProvider>(context,
-                                        listen: false)
-                                    .updateQuantity(widget.id, newQuantity);
-                              }
-                            },
-                            decoration: InputDecoration(
-                              contentPadding:
-                                  const EdgeInsets.symmetric(vertical: 8),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                            ),
-                          ),
-                        ),
-
-                        const SizedBox(width: 6),
-
-                        // Increase Quantity Button
-                        Container(
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: IKColors.primary,
-                          ),
-                          child: IconButton(
-                            icon: const Icon(Icons.add, color: Colors.white),
-                            onPressed: addToCart,
-                          ),
+                        Text('$cartQuantity',
+                            style: Theme.of(context).textTheme.bodyLarge),
+                        IconButton(
+                          icon: const Icon(Icons.add, color: Colors.white),
+                          onPressed: addToCart,
                         ),
                       ],
                     )

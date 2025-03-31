@@ -1,7 +1,7 @@
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:jctelecaller/components/drawer/drawer_menu.dart';
 import 'package:jctelecaller/components/product/product_card.dart';
 import 'package:jctelecaller/data/data_provider.dart';
-
 import 'package:jctelecaller/provider/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:jctelecaller/utils/constants/colors.dart';
@@ -19,6 +19,8 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   String selectedCategory = "All";
   late ScrollController _scrollController;
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  String _searchQuery = ""; // Search query variable
 
   @override
   void initState() {
@@ -29,13 +31,11 @@ class _HomeState extends State<Home> {
       dataProvider.fetchAllCategories();
       dataProvider.fetchProducts(); // Fetch all products initially
     });
-
     _scrollController.addListener(_onScroll);
   }
 
   void _onScroll() {
     final dataProvider = Provider.of<DataProvider>(context, listen: false);
-
     if (_scrollController.position.pixels >=
             _scrollController.position.maxScrollExtent - 50 &&
         dataProvider.hasMore &&
@@ -57,11 +57,42 @@ class _HomeState extends State<Home> {
     final dataProvider = Provider.of<DataProvider>(context);
     final products = dataProvider.products;
 
+    // Filter products based on search query
+    final filteredProducts = products.where((product) {
+      final title =
+          product.title['en']?.toLowerCase() ?? ''; // Ensure lowercase
+      return title.contains(_searchQuery);
+    }).toList();
+
     return Scaffold(
+      key: _scaffoldKey,
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(80),
         child: AppBar(
-          automaticallyImplyLeading: false,
+          leading: IconButton(
+            icon: Icon(
+              Icons.menu,
+              color: IKColors.primary,
+              size: 30,
+            ),
+            onPressed: () {
+              _scaffoldKey.currentState?.openDrawer();
+            },
+          ),
+          actions: [
+            IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+                Navigator.pushNamed(context, '/cart');
+              },
+              icon: SvgPicture.string(
+                IKSvg.cart,
+                height: 20,
+                width: 20,
+                color: IKColors.primary,
+              ),
+            ),
+          ],
           title: Padding(
             padding: const EdgeInsets.all(10.0),
             child: Column(
@@ -80,36 +111,10 @@ class _HomeState extends State<Home> {
             ),
           ),
           titleSpacing: 5,
-          actions: [
-            IconButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, "/search_user");
-                },
-                icon: Icon(Icons.person_outline, color: IKColors.primary)),
-            IconButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/cart');
-              },
-              icon: SvgPicture.string(
-                IKSvg.cart,
-                height: 20,
-                width: 20,
-                color: IKColors.primary,
-              ),
-            ),
-            IconButton(
-              icon: SvgPicture.string(
-                IKSvg.signout,
-                height: 20,
-                width: 20,
-                color: IKColors.primary,
-              ),
-              onPressed: () {
-                Navigator.pushNamed(context, '/signin');
-              },
-            ),
-          ],
         ),
+      ),
+      drawer: MyDrawer(
+        showDrawer: true,
       ),
       body: Container(
         alignment: Alignment.topCenter,
@@ -123,8 +128,12 @@ class _HomeState extends State<Home> {
                 padding: const EdgeInsets.symmetric(horizontal: 15),
                 child: TextField(
                   cursorColor: IKColors.primary,
+                  onChanged: (value) {
+                    setState(() {
+                      _searchQuery = value.toLowerCase();
+                    });
+                  },
                   decoration: InputDecoration(
-                    
                     contentPadding: const EdgeInsets.symmetric(
                         horizontal: 50, vertical: 15),
                     hintText: 'Search Something...',
@@ -140,16 +149,13 @@ class _HomeState extends State<Home> {
                     fillColor: Theme.of(context).canvasColor,
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: IKColors.primary),
-                      borderRadius: BorderRadius.circular(20)
+                      borderRadius: BorderRadius.circular(20),
                     ),
                   ),
                 ),
               ),
               const SizedBox(height: 20.0),
-
               const SizedBox(height: 12),
-
-              // ✅ Product List with Pagination
               Expanded(
                 child: GridView.builder(
                   controller: _scrollController,
@@ -161,9 +167,9 @@ class _HomeState extends State<Home> {
                     mainAxisSpacing: 10,
                     childAspectRatio: 0.4,
                   ),
-                  itemCount: products.length,
+                  itemCount: filteredProducts.length,
                   itemBuilder: (context, index) {
-                    final product = products[index];
+                    final product = filteredProducts[index];
                     return ProductCard(
                       id: product.id,
                       title: product.title,

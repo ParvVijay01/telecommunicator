@@ -129,6 +129,7 @@ class _CartState extends State<Cart> {
                                   'subTotal': cartProvider.subtotal,
                                   'shippingCost': cartProvider.shippingCost,
                                   'total': cartProvider.total,
+                                  
                                 },
                               );
                             },

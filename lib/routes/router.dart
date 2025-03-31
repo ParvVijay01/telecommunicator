@@ -5,6 +5,8 @@ import 'package:jctelecaller/screens/cart/cart.dart';
 import 'package:jctelecaller/screens/chat/chat_call.dart';
 import 'package:jctelecaller/screens/chat/chat_list.dart';
 import 'package:jctelecaller/screens/chat/chat_screen.dart';
+import 'package:jctelecaller/screens/dashboard/dashboard.dart';
+import 'package:jctelecaller/screens/home/home.dart';
 import 'package:jctelecaller/screens/home/search_user.dart';
 import 'package:jctelecaller/screens/notifications/notifications.dart';
 import 'package:jctelecaller/screens/order/my_orders.dart';
@@ -42,8 +44,8 @@ import 'package:jctelecaller/routes/bottom_navigation/bottom_navigation.dart';
 class AppRoutes {
   static final Map<String, WidgetBuilder> routes = {
     '/splash': (context) => const Splash(),
-    '/onboarding': (context) => Onboarding(),
     '/signin': (context) => const SignIn(),
+    '/onboarding': (context) => Onboarding(),
     '/main_home': (context) => const BottomNavigation(),
     '/add_delivery_address': (context) => const AddDeliveryAddress(),
     '/payment': (context) => const Payment(),
@@ -81,5 +83,9 @@ class AppRoutes {
     '/toggle': (context) => const Toggle(),
     '/chat_call': (context) => const ChatCall(),
     '/search_user': (context) => const SearchUserScreen(),
+    '/dashboard': (context) => DashboardScreen(
+      showDrawer: ModalRoute.of(context)!.settings.arguments as bool? ?? false,
+),
+    '/home': (context) => const Home(),
   };
 }

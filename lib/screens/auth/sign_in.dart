@@ -39,7 +39,13 @@ class _SignInState extends State<SignIn> {
           await userProvider.login(LoginData(name: email, password: password));
 
       if (error == null) {
-        Navigator.pushReplacementNamed(context, '/search_user');
+        Navigator.pushReplacementNamed(context, '/dashboard');
+      } else {
+        // Check if the error message is "Unauthorized" and replace it with a user-friendly message
+        if (error.toLowerCase().contains("unauthorized")) {
+          error = "Invalid email or password.";
+        }
+        SnackBarHelper.showErrorSnackBar(error);
       }
     } catch (e) {
       SnackBarHelper.showErrorSnackBar("Error: ${e.toString()}");
@@ -107,17 +113,18 @@ class _SignInState extends State<SignIn> {
                         ),
                         const SizedBox(height: 15),
                         TextField(
-
                           controller: _emailController,
                           decoration: InputDecoration(
                             labelText: 'Email Address',
                             contentPadding: const EdgeInsets.all(15),
                             filled: true,
-                            floatingLabelStyle: TextStyle(color: IKColors.primary),
-                            focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: IKColors.primary,)),
-                            border: const OutlineInputBorder(
-                            
-                            ),
+                            floatingLabelStyle:
+                                TextStyle(color: IKColors.primary),
+                            focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                              color: IKColors.primary,
+                            )),
+                            border: const OutlineInputBorder(),
                             fillColor: Theme.of(context).canvasColor,
                           ),
                         ),
@@ -126,8 +133,12 @@ class _SignInState extends State<SignIn> {
                           controller: _passwordController,
                           obscureText: true,
                           decoration: InputDecoration(
-                            floatingLabelStyle: TextStyle(color: IKColors.primary),
-                            focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: IKColors.primary,)),
+                            floatingLabelStyle:
+                                TextStyle(color: IKColors.primary),
+                            focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                              color: IKColors.primary,
+                            )),
                             labelText: 'Password',
                             contentPadding: const EdgeInsets.all(15),
                             filled: true,
@@ -135,23 +146,18 @@ class _SignInState extends State<SignIn> {
                             fillColor: Theme.of(context).canvasColor,
                           ),
                         ),
-                        const SizedBox(height: 5),
-                        
                         const SizedBox(height: 25),
-                        Padding(
-                          padding: const EdgeInsets.all(0.0),
-                          child: ElevatedButton(
-                            onPressed: _isLoading ? null : _login,
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: IKColors.primary,
-                              side: const BorderSide(color: IKColors.secondary),
-                              foregroundColor: Theme.of(context).cardColor,
-                            ),
-                            child: _isLoading
-                                ? const CircularProgressIndicator(
-                                    color: Colors.white)
-                                : const Text('Sign in'),
+                        ElevatedButton(
+                          onPressed: _isLoading ? null : _login,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: IKColors.primary,
+                            side: const BorderSide(color: IKColors.secondary),
+                            foregroundColor: Theme.of(context).cardColor,
                           ),
+                          child: _isLoading
+                              ? const CircularProgressIndicator(
+                                  color: Colors.white)
+                              : const Text('Sign in'),
                         ),
                         const SizedBox(height: 40),
                       ],

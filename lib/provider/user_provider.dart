@@ -96,6 +96,7 @@ class UserProvider extends ChangeNotifier {
   }
 
   /// Login user & store in local storage
+
   Future<String?> login(LoginData data) async {
     try {
       Map<String, dynamic> loginData = {
@@ -126,6 +127,17 @@ class UserProvider extends ChangeNotifier {
           await saveUser(user, token);
           _box.write(USER_INFO_BOX, jsonEncode(user.toJson()));
           _box.write("auth_token", token);
+
+          // Store telecaller details if available
+          if (user.telecaller != null) {
+            _box.write("commission", user.telecaller!.commission);
+            _box.write("remainingBalance", user.telecaller!.remainingBalance);
+            _box.write(
+                "totalIncome",
+                user.telecaller!.commission +
+                    user.telecaller!.remainingBalance);
+            _box.write("orders", user.telecaller!.orders.length);
+          }
 
           return null;
         } else {

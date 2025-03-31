@@ -1,3 +1,5 @@
+import 'package:jctelecaller/models/telecaller.dart';
+
 class User {
   String id;
   String name;
@@ -5,12 +7,12 @@ class User {
   final String? address;
   final String? country;
   final String? city;
-  final ShippingAddress? shippingAddress;
   final String email;
   final String phone;
   final String? password;
   final DateTime createdAt;
   final DateTime updatedAt;
+  final Telecaller? telecaller; // ✅ Add telecaller field
 
   User({
     required this.id,
@@ -19,12 +21,12 @@ class User {
     this.address,
     this.country,
     this.city,
-    this.shippingAddress,
     required this.email,
     required this.phone,
     this.password,
     required this.createdAt,
     required this.updatedAt,
+    this.telecaller, // ✅ Initialize it as nullable
   });
 
   // Convert JSON to User model
@@ -36,9 +38,7 @@ class User {
       address: json['address'] ?? '',
       country: json['country'] ?? '',
       city: json['city'] ?? '',
-      shippingAddress: json['shippingAddress'] != null
-          ? ShippingAddress.fromJson(json['shippingAddress'])
-          : null,
+      
       email: json['email'] ?? '',
       phone: json['phone'] ?? 'No Phone',
       password: json['password'] ?? '',
@@ -48,6 +48,9 @@ class User {
       updatedAt: json['updatedAt'] != null
           ? DateTime.tryParse(json['updatedAt']) ?? DateTime.now()
           : DateTime.now(),
+      telecaller: json['telecaller'] != null
+          ? Telecaller.fromJson(json['telecaller'])
+          : null, // ✅ Parse Telecaller object if it exists
     );
   }
 
@@ -60,65 +63,12 @@ class User {
       'address': address,
       'country': country,
       'city': city,
-      'shippingAddress': shippingAddress?.toJson(),
       'email': email,
       'phone': phone,
       'password': password,
       'createdAt': createdAt.toIso8601String(),
       'updatedAt': updatedAt.toIso8601String(),
-    };
-  }
-}
-
-// Shipping Address Model
-class ShippingAddress {
-  final String name;
-  final String contact;
-  final String email;
-  final String address;
-  final String country;
-  final String city;
-  final String area;
-  final String zipCode;
-  final bool isDefault;
-
-  ShippingAddress({
-    required this.name,
-    required this.contact,
-    required this.email,
-    required this.address,
-    required this.country,
-    required this.city,
-    required this.area,
-    required this.zipCode,
-    required this.isDefault,
-  });
-
-  factory ShippingAddress.fromJson(Map<String, dynamic> json) {
-    return ShippingAddress(
-      name: json['name'] ?? '',
-      contact: json['contact'] ?? '',
-      email: json['email'] ?? '',
-      address: json['address'] ?? '',
-      country: json['country'] ?? '',
-      city: json['city'] ?? '',
-      area: json['area'] ?? '', // Handle missing 'area'
-      zipCode: json['zipCode'] ?? '',
-      isDefault: json['isDefault'] ?? false, // Default to 'false' if missing
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'name': name,
-      'contact': contact,
-      'email': email,
-      'address': address,
-      'country': country,
-      'city': city,
-      'area': area,
-      'zipCode': zipCode,
-      'isDefault': isDefault,
+      'telecaller': telecaller?.toJson(), // ✅ Convert Telecaller to JSON
     };
   }
 }
